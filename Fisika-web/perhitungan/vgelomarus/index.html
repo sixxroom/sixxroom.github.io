@@ -2,194 +2,220 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visualisasi Arus AC</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Visualisasi Arus AC</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-    body {
-      background-color: #ffffff;
-    }
+        body {
+            background-color: #ffffff;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-    }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+        }
 
-    h1 {
-      font-size: 32px;
-      color: #213448;
-      margin-bottom: 20px;
-      text-align: center;
-    }
+        h1 {
+            font-size: 32px;
+            color: #213448;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #333;
-      line-height: 1.6;
-      text-align: center;
-    }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+        }
 
-    input {
-      padding: 10px;
-      margin: 10px 0;
-      width: 90%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 90%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      background-color: #3A59D1;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3A59D1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #3A59D1;
-      text-align: center;
-    }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #3A59D1;
+            text-align: center;
+        }
 
-    .rumus {
-      background-color: #3A59D1;
-      color: #ffffff;
-      font-weight: bold;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 24px;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
+        .rumus {
+            background-color: #3A59D1;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
-    #steps {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #555;
-      text-align: center;
-      line-height: 1.6;
-    }
+        #steps {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+            text-align: center;
+            line-height: 1.6;
+        }
 
-    canvas {
-      display: block;
-      margin: 30px auto;
-      max-width: 100%;
-    }
-  </style>
+        canvas {
+            display: block;
+            margin: 30px auto;
+            max-width: 100%;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Visualisasi Gelombang Arus AC</h1>
-    <p>Masukkan nilai arus maksimum (Imax), frekuensi (f), dan fase awal (φ) dalam radian untuk memvisualisasikan bentuk gelombang arus:</p>
+    <nav>
+        <div class="wrapper">
+            <div class="logo"><a href=''>Fisika Dasar 2A</a></div>
+            <div class="menu">
+                <ul>
+                    <li><a href="/#Utama">Utama</a></li>
+                    <li><a href="/#Materi">Materi</a></li>
+                    <li><a href="/#Anggota">Anggota</a></li>
+                    <li class="dropdown">
+                        <a href="#">Perhitungan</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/perhitungan/kalrlc/">RLC</a></li>
+                            <li><a href="/perhitungan/frekuensi/">Frekuensi Sudut </a></li>
+                            <li><a href="/perhitungan/impendansi/">Impedansi RLC </a></li>
+                            <li><a href="/perhitungan/arusmax/">Arus Maximum</a></li>
+                            <li><a href="/perhitungan/arusefektif/">Arus Efektif</a></li>
+                            <li><a href="/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="" class="tbl-biru">Sixxroom</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Visualisasi Gelombang Arus AC</h1>
+        <p>Masukkan nilai arus maksimum (Imax), frekuensi (f), dan fase awal (φ) dalam radian untuk memvisualisasikan
+            bentuk gelombang arus:</p>
 
-    <input type="number" id="imax" placeholder="Imax (Ampere)" step="any">
-    <input type="number" id="freq" placeholder="Frekuensi (f) dalam Hertz" step="any">
-    <input type="number" id="phi" placeholder="Fase Awal (φ) dalam radian" step="any">
-    <button onclick="hitungArusAC()">Hitung dan Tampilkan Grafik</button>
+        <input type="number" id="imax" placeholder="Imax (Ampere)" step="any">
+        <input type="number" id="freq" placeholder="Frekuensi (f) dalam Hertz" step="any">
+        <input type="number" id="phi" placeholder="Fase Awal (φ) dalam radian" step="any">
+        <button onclick="hitungArusAC()">Hitung dan Tampilkan Grafik</button>
 
-    <div class="result" id="result"></div>
-    <div class="result" id="steps" style="font-weight: normal;"></div>
+        <div class="result" id="result"></div>
+        <div class="result" id="steps" style="font-weight: normal;"></div>
 
-    <canvas id="chart" height="100"></canvas>
+        <canvas id="chart" height="100"></canvas>
 
-    <div class="rumus">I(t) = Imax × sin(ωt − φ)</div>
+        <div class="rumus">I(t) = Imax × sin(ωt − φ)</div>
 
-    <p>Di mana:<br>
-      I(t) = arus pada waktu t<br>
-      Imax = arus maksimum (Ampere)<br>
-      ω = 2πf (frekuensi sudut)<br>
-      φ = pergeseran fase (radian)
-    </p>
-  </div>
+        <p>Di mana:<br>
+            I(t) = arus pada waktu t<br>
+            Imax = arus maksimum (Ampere)<br>
+            ω = 2πf (frekuensi sudut)<br>
+            φ = pergeseran fase (radian)
+        </p>
+    </div>
 
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Script -->
-  <script>
-    function hitungArusAC() {
-      const imax = parseFloat(document.getElementById('imax').value);
-      const freq = parseFloat(document.getElementById('freq').value);
-      const phi = parseFloat(document.getElementById('phi').value);
-      const resultEl = document.getElementById('result');
-      const stepsEl = document.getElementById('steps');
+    <!-- Script -->
+    <script>
+        function hitungArusAC() {
+            const imax = parseFloat(document.getElementById('imax').value);
+            const freq = parseFloat(document.getElementById('freq').value);
+            const phi = parseFloat(document.getElementById('phi').value);
+            const resultEl = document.getElementById('result');
+            const stepsEl = document.getElementById('steps');
 
-      if (!imax || !freq) {
-        resultEl.textContent = 'Mohon masukkan nilai Imax dan Frekuensi.';
-        stepsEl.innerHTML = '';
-        return;
-      }
-
-      const omega = 2 * Math.PI * freq;
-
-      resultEl.textContent = `Frekuensi Sudut ω = ${omega.toFixed(2)} rad/detik`;
-
-      stepsEl.innerHTML = `Langkah:<br>ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s<br>φ = ${phi || 0} rad`;
-
-      const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1); // 1 detik
-      const y = t.map(ti => imax * Math.sin(omega * ti - (phi || 0)));
-
-      const ctx = document.getElementById('chart').getContext('2d');
-      if (window.chartInstance) window.chartInstance.destroy();
-
-      window.chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: t.map(v => v.toFixed(3)),
-          datasets: [{
-            label: 'I(t) = Imax × sin(ωt − φ)',
-            data: y,
-            borderColor: '#3A59D1',
-            borderWidth: 2,
-            pointRadius: 0,
-            fill: false
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Waktu (t) dalam detik'
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Arus (Ampere)'
-              }
+            if (!imax || !freq) {
+                resultEl.textContent = 'Mohon masukkan nilai Imax dan Frekuensi.';
+                stepsEl.innerHTML = '';
+                return;
             }
-          },
-          plugins: {
-            legend: { display: true }
-          }
+
+            const omega = 2 * Math.PI * freq;
+
+            resultEl.textContent = `Frekuensi Sudut ω = ${omega.toFixed(2)} rad/detik`;
+
+            stepsEl.innerHTML = `Langkah:<br>ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s<br>φ = ${phi || 0} rad`;
+
+            const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1); // 1 detik
+            const y = t.map(ti => imax * Math.sin(omega * ti - (phi || 0)));
+
+            const ctx = document.getElementById('chart').getContext('2d');
+            if (window.chartInstance) window.chartInstance.destroy();
+
+            window.chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: t.map(v => v.toFixed(3)),
+                    datasets: [{
+                        label: 'I(t) = Imax × sin(ωt − φ)',
+                        data: y,
+                        borderColor: '#3A59D1',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Waktu (t) dalam detik'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Arus (Ampere)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
         }
-      });
-    }
-  </script>
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator Impedansi RLC Seri</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3A59D1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2c3e90;
+        }
+
+        .result,
+        .steps {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #3A59D1;
+        }
+
+        .steps {
+            font-size: 16px;
+            text-align: left;
+            margin-top: 10px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .rumus {
+            background-color: #3A59D1;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="wrapper">
+            <div class="logo"><a href=''>Fisika Dasar 2A</a></div>
+            <div class="menu">
+                <ul>
+                    <li><a href="/#Utama">Utama</a></li>
+                    <li><a href="/#Materi">Materi</a></li>
+                    <li><a href="/#Anggota">Anggota</a></li>
+                    <li class="dropdown">
+                        <a href="#">Perhitungan</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/perhitungan/kalrlc/">RLC</a></li>
+                            <li><a href="/perhitungan/frekuensi/">Frekuensi Sudut </a></li>
+                            <li><a href="/perhitungan/impendansi/">Impedansi RLC </a></li>
+                            <li><a href="/perhitungan/arusmax/">Arus Maximum</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="" class="tbl-biru">Sixxroom</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Kalkulator Impedansi RLC Seri</h1>
+        <p>Masukkan nilai R (Ohm), L (Henry), C (Farad), dan frekuensi (Hz):</p>
+
+        <input type="number" id="r" placeholder="Resistansi (R) dalam Ohm" step="any">
+        <input type="number" id="l" placeholder="Induktansi (L) dalam Henry" step="any">
+        <input type="number" id="c" placeholder="Kapasitansi (C) dalam Farad" step="any">
+        <input type="number" id="f" placeholder="Frekuensi (f) dalam Hz" step="any">
+
+        <button onclick="hitungImpedansi()">Hitung Impedansi</button>
+
+        <div class="result" id="result"></div>
+        <div class="steps" id="steps"></div>
+        <h1>Frekuensi Sudut (ω)</h1>
+        <p>Impedansi adalah total hambatan dalam rangkaian RLC:</p>
+        <div class="rumus">Rumus: Z = √[ R² + (ωL - 1/ωC)² ]</div>
+    </div>
+
+    <script>
+        function hitungImpedansi() {
+            const R = parseFloat(document.getElementById('r').value);
+            const L = parseFloat(document.getElementById('l').value);
+            const C = parseFloat(document.getElementById('c').value);
+            const f = parseFloat(document.getElementById('f').value);
+
+            const resultEl = document.getElementById('result');
+            const stepsEl = document.getElementById('steps');
+
+            if (isNaN(R) || isNaN(L) || isNaN(C) || isNaN(f) || f === 0 || C === 0) {
+                resultEl.textContent = 'Masukkan semua nilai dengan benar (tidak boleh nol).';
+                stepsEl.textContent = '';
+                return;
+            }
+
+            const omega = 2 * Math.PI * f;
+            const xl = omega * L;
+            const xc = 1 / (omega * C);
+            const z = Math.sqrt(Math.pow(R, 2) + Math.pow((xl - xc), 2));
+
+            resultEl.textContent = `Impedansi Total (Z) = ${z.toFixed(2)} Ω`;
+
+            stepsEl.innerHTML = `
+        <strong>Langkah Perhitungan:</strong><br>
+        ω = 2πf = ${omega.toFixed(2)} rad/s<br>
+        X<sub>L</sub> = ωL = ${xl.toFixed(2)} Ω<br>
+        X<sub>C</sub> = 1 / (ωC) = ${xc.toFixed(2)} Ω<br>
+        Z = √[R² + (X<sub>L</sub> - X<sub>C</sub>)²]<br>
+        Z = √[${R}² + (${xl.toFixed(2)} - ${xc.toFixed(2)})²]<br>
+        Z = ${z.toFixed(2)} Ω
+      `;
+        }
+    </script>
+
+</body>
+
+</html>

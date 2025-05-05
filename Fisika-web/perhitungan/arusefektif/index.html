@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arus Efektif (Irms)</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #213448;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 90%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3A59D1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #324cc7;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #3A59D1;
+            text-align: center;
+        }
+
+        .rumus {
+            background-color: #3A59D1;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        #steps {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        canvas {
+            display: block;
+            margin: 30px auto;
+            max-width: 100%;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .rumus {
+                font-size: 20px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="wrapper">
+            <div class="logo"><a href=''>Fisika Dasar 2A</a></div>
+            <div class="menu">
+                <ul>
+                    <li><a href="/#Utama">Utama</a></li>
+                    <li><a href="/#Materi">Materi</a></li>
+                    <li><a href="/#Anggota">Anggota</a></li>
+                    <li class="dropdown">
+                        <a href="#">Perhitungan</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/perhitungan/kalrlc/">RLC</a></li>
+                            <li><a href="/perhitungan/frekuensi/">Frekuensi Sudut </a></li>
+                            <li><a href="/perhitungan/impendansi/">Impedansi RLC </a></li>
+                            <li><a href="/perhitungan/arusmax/">Arus Maximum</a></li>
+                            <li><a href="/perhitungan/arusefektif/">Arus Efektif</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="" class="tbl-biru">Sixxroom</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Perhitungan Arus Efektif (Irms)</h1>
+        <p>Masukkan Arus Maksimum (I<sub>maks</sub>) dalam Ampere (A):</p>
+
+        <input type="number" id="imax" placeholder="I maks dalam Ampere" step="any">
+        <button onclick="hitungIrms()">Hitung Irms</button>
+
+        <div class="result" id="result"></div>
+        <div class="result" id="steps" style="font-weight: normal;"></div>
+
+        <canvas id="chart" height="100"></canvas>
+    </div>
+
+    <!-- Penjelasan Arus Efektif -->
+    <div class="container">
+        <h1>Arus Efektif (I<sub>ef</sub>)</h1>
+        <p>Arus efektif adalah nilai rata-rata kuadrat dari arus bolak-balik yang ekuivalen dengan arus searah (DC)
+            dalam hal energi yang dikonversi. Rumus arus efektif untuk rangkaian RLC tergantung pada komponen yang
+            terlibat:</p>
+
+
+
+        <p>Berikut adalah beberapa rumus umum:</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center;">
+            <thead>
+                <tr style="background-color: #3A59D1; color: white;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Jenis Rangkaian</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Rumus I<sub>ef</sub></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Rangkaian Umum AC</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">I<sub>ef</sub> = I<sub>maks</sub> / √2</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <td style="padding: 12px; border: 1px solid #ddd;">Rangkaian RLC</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">I<sub>ef</sub> = V<sub>ef</sub> / Z</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Jika hanya Resistor</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">I<sub>ef</sub> = V<sub>ef</sub> / R</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Script Kalkulasi -->
+    <script>
+        function hitungIrms() {
+            const imax = parseFloat(document.getElementById('imax').value);
+            if (!imax) {
+                document.getElementById('result').textContent = 'Harap masukkan nilai I maks.';
+                document.getElementById('steps').innerHTML = '';
+                return;
+            }
+
+            const irms = imax / Math.sqrt(2);
+            document.getElementById('result').textContent = `Arus Efektif (Irms): ${irms.toFixed(2)} A`;
+            document.getElementById('steps').innerHTML = `
+        Langkah Perhitungan:<br>
+        I<sub>rms</sub> = I<sub>maks</sub> / √2<br>
+        I<sub>rms</sub> = ${imax} / ${Math.sqrt(2).toFixed(4)}<br>
+        I<sub>rms</sub> = ${irms.toFixed(4)} A`;
+
+            // Visualisasi I(t) = Imax * sin(ωt)
+            const omega = 2 * Math.PI * 50; // frekuensi tetap, misal 50 Hz
+            const t = Array.from({ length: 1000 }, (_, i) => i / 1000);
+            const y = t.map(ti => imax * Math.sin(omega * ti));
+
+            const ctx = document.getElementById('chart').getContext('2d');
+            if (window.chartInstance) window.chartInstance.destroy();
+
+            window.chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: t.map(v => v.toFixed(3)),
+                    datasets: [{
+                        label: 'I(t) = Imax × sin(ωt)',
+                        data: y,
+                        borderColor: '#3A59D1',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Waktu (t) dalam detik'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Arus (A)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

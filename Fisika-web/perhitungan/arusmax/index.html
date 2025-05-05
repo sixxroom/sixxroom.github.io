@@ -103,9 +103,11 @@
           <li class="dropdown">
             <a href="#">Perhitungan</a>
             <ul class="dropdown-menu">
-              <li><a href="/perhitungan/rumus1/">RLC</a></li>
-              <li><a href="/perhitungan/rumus2/">Frekuensi Sudut </a></li>
-              <li><a href="/perhitungan/rumus3/">Arus Maximum</a></li>
+              <li><a href="/perhitungan/kalrlc/">RLC</a></li>
+              <li><a href="/perhitungan/frekuensi/">Frekuensi Sudut </a></li>
+              <li><a href="/perhitungan/impendansi/">Impedansi RLC </a></li>
+              <li><a href="/perhitungan/arusmax/">Arus Maximum</a></li>
+              <li><a href="/perhitungan/arusefektif/">Arus Efektif</a></li>
             </ul>
           </li>
           <li><a href="" class="tbl-biru">Sixxroom</a></li>
@@ -128,77 +130,77 @@
 
     <canvas id="chart" height="100"></canvas>
     <div class="container">
-      <h1>Frekuensi Sudut (ω)</h1>
+      <h1>Impedansi RLC (Z)</h1>
       <p>Arus maksimum adalah nilai puncak arus dalam rangkaian AC dan dirumuskan sebagai:</p>
-    <div class="rumus">Rumus: Imax = Vmax / Z</div>
-  </div>
+      <div class="rumus">Rumus: Imax = Vmax / Z</div>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    function hitungImax() {
-      const vmax = parseFloat(document.getElementById('vmax').value);
-      const z = parseFloat(document.getElementById('z').value);
-      const resultEl = document.getElementById('result');
-      const stepsEl = document.getElementById('steps');
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      function hitungImax() {
+        const vmax = parseFloat(document.getElementById('vmax').value);
+        const z = parseFloat(document.getElementById('z').value);
+        const resultEl = document.getElementById('result');
+        const stepsEl = document.getElementById('steps');
 
-      if (isNaN(vmax) || isNaN(z)) {
-        resultEl.textContent = 'Masukkan nilai Vmax dan Z yang valid.';
-        stepsEl.textContent = '';
-        return;
-      }
+        if (isNaN(vmax) || isNaN(z)) {
+          resultEl.textContent = 'Masukkan nilai Vmax dan Z yang valid.';
+          stepsEl.textContent = '';
+          return;
+        }
 
-      if (z === 0) {
-        resultEl.textContent = 'Impedansi (Z) tidak boleh nol.';
-        stepsEl.textContent = '';
-        return;
-      }
+        if (z === 0) {
+          resultEl.textContent = 'Impedansi (Z) tidak boleh nol.';
+          stepsEl.textContent = '';
+          return;
+        }
 
-      const imax = vmax / z;
-      resultEl.textContent = `Arus Maksimum (Imax) = ${imax.toFixed(2)} A`;
-      stepsEl.innerHTML = `
+        const imax = vmax / z;
+        resultEl.textContent = `Arus Maksimum (Imax) = ${imax.toFixed(2)} A`;
+        stepsEl.innerHTML = `
         <strong>Langkah Perhitungan:</strong><br>
         Imax = Vmax / Z<br>
         Imax = ${vmax} V / ${z} Ω<br>
         Imax = ${imax.toFixed(2)} A
       `;
 
-      // Visualisasi I(t) = Imax * sin(ωt), dengan ω default (misalnya 2πf, f = 50Hz)
-      const omega = 2 * Math.PI * 50;
-      const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1);
-      const y = t.map(ti => imax * Math.sin(omega * ti));
+        // Visualisasi I(t) = Imax * sin(ωt), dengan ω default (misalnya 2πf, f = 50Hz)
+        const omega = 2 * Math.PI * 50;
+        const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1);
+        const y = t.map(ti => imax * Math.sin(omega * ti));
 
-      const ctx = document.getElementById('chart').getContext('2d');
-      if (window.chartInstance) window.chartInstance.destroy();
-      window.chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: t.map(ti => ti.toFixed(3)),
-          datasets: [{
-            label: 'I(t) = Imax × sin(ωt)',
-            data: y,
-            borderColor: '#2980b9',
-            borderWidth: 2,
-            pointRadius: 0,
-            fill: false
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              title: { display: true, text: 'Waktu (t) dalam detik' }
-            },
-            y: {
-              title: { display: true, text: 'Arus (A)' }
-            }
+        const ctx = document.getElementById('chart').getContext('2d');
+        if (window.chartInstance) window.chartInstance.destroy();
+        window.chartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: t.map(ti => ti.toFixed(3)),
+            datasets: [{
+              label: 'I(t) = Imax × sin(ωt)',
+              data: y,
+              borderColor: '#2980b9',
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: false
+            }]
           },
-          plugins: {
-            legend: { display: true }
+          options: {
+            responsive: true,
+            scales: {
+              x: {
+                title: { display: true, text: 'Waktu (t) dalam detik' }
+              },
+              y: {
+                title: { display: true, text: 'Arus (A)' }
+              }
+            },
+            plugins: {
+              legend: { display: true }
+            }
           }
-        }
-      });
-    }
-  </script>
+        });
+      }
+    </script>
 
 </body>
 

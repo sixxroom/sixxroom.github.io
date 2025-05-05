@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perhitungan Arus Maksimum (Imax)</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2471a3;
+    }
+
+    .result, .steps {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .steps {
+      font-size: 16px;
+      text-align: left;
+      margin-top: 10px;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .rumus {
+      background-color: #2980b9;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 20px;
+      margin-top: 30px;
+    }
+
+    canvas {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="wrapper">
+      <div class="logo"><a href=''>Fisika Dasar 2A</a></div>
+      <div class="menu">
+        <ul>
+          <li><a href="/#Utama">Utama</a></li>
+          <li><a href="/#Materi">Materi</a></li>
+          <li><a href="/#Anggota">Anggota</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Perhitungan</a>
+            <ul class="dropdown-menu">
+              <li><a href="/perhitungan/rumus1/">Rumus 1</a></li>
+              <li><a href="/perhitungan/rumus2/">Rumus 2</a></li>
+              <li><a href="/perhitungan/rumus3/">Rumus 3</a></li>
+            </ul>
+          </li>
+          <li><a href="" class="tbl-biru">Sixxroom</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Kalkulator -->
+  <div class="container">
+    <h1>Perhitungan Arus Maksimum (Imax)</h1>
+    <p>Masukkan Tegangan Maksimum (Vmax) dan Impedansi (Z) untuk menghitung Imax:</p>
+
+    <input type="number" id="vmax" placeholder="Tegangan Maksimum (V)" step="any">
+    <input type="number" id="z" placeholder="Impedansi (Z) dalam Ohm" step="any">
+    <button onclick="hitungImax()">Hitung Imax</button>
+
+    <div class="result" id="result"></div>
+    <div class="steps" id="steps"></div>
+
+    <canvas id="chart" height="100"></canvas>
+
+    <div class="rumus">Rumus: Imax = Vmax / Z</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function hitungImax() {
+      const vmax = parseFloat(document.getElementById('vmax').value);
+      const z = parseFloat(document.getElementById('z').value);
+      const resultEl = document.getElementById('result');
+      const stepsEl = document.getElementById('steps');
+
+      if (isNaN(vmax) || isNaN(z)) {
+        resultEl.textContent = 'Masukkan nilai Vmax dan Z yang valid.';
+        stepsEl.textContent = '';
+        return;
+      }
+
+      if (z === 0) {
+        resultEl.textContent = 'Impedansi (Z) tidak boleh nol.';
+        stepsEl.textContent = '';
+        return;
+      }
+
+      const imax = vmax / z;
+      resultEl.textContent = `Arus Maksimum (Imax) = ${imax.toFixed(2)} A`;
+      stepsEl.innerHTML = `
+        <strong>Langkah Perhitungan:</strong><br>
+        Imax = Vmax / Z<br>
+        Imax = ${vmax} V / ${z} Ω<br>
+        Imax = ${imax.toFixed(2)} A
+      `;
+
+      // Visualisasi I(t) = Imax * sin(ωt), dengan ω default (misalnya 2πf, f = 50Hz)
+      const omega = 2 * Math.PI * 50;
+      const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1);
+      const y = t.map(ti => imax * Math.sin(omega * ti));
+
+      const ctx = document.getElementById('chart').getContext('2d');
+      if (window.chartInstance) window.chartInstance.destroy();
+      window.chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: t.map(ti => ti.toFixed(3)),
+          datasets: [{
+            label: 'I(t) = Imax × sin(ωt)',
+            data: y,
+            borderColor: '#2980b9',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: { display: true, text: 'Waktu (t) dalam detik' }
+            },
+            y: {
+              title: { display: true, text: 'Arus (A)' }
+            }
+          },
+          plugins: {
+            legend: { display: true }
+          }
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frekuensi Sudut (ω)</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #213448;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 90%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #3A59D1;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2e46aa;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #3A59D1;
+      text-align: center;
+    }
+
+    .rumus {
+      background-color: #3A59D1;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 24px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    #steps {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    canvas {
+      display: block;
+      margin: 30px auto;
+      max-width: 100%;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .rumus {
+        font-size: 20px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="wrapper">
+      <div class="logo"><a href=''>Fisika Dasar 2A</a></div>
+      <div class="menu">
+        <ul>
+          <li><a href="/#Utama">Utama</a></li>
+          <li><a href="/#Materi">Materi</a></li>
+          <li><a href="/#Anggota">Anggota</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Perhitungan</a>
+            <ul class="dropdown-menu">
+              <li><a href="/perhitungan/rumus1/">Rumus 1</a></li>
+              <li><a href="/perhitungan/rumus2/">Rumus 2</a></li>
+              <li><a href="/perhitungan/rumus3/">Rumus 3</a></li>
+            </ul>
+          </li>
+          <li><a href="" class="tbl-biru">Sixxroom</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Kalkulator Frekuensi Sudut -->
+  <div class="container">
+    <h1>Perhitungan Frekuensi Sudut (ω)</h1>
+    <p>Masukkan Frekuensi (f) dalam Hertz atau Periode (T) dalam detik:</p>
+
+    <input type="number" id="f" placeholder="Frekuensi (f) dalam Hertz" step="any">
+    <input type="number" id="T" placeholder="Periode (T) dalam detik" step="any">
+    <button onclick="hitungFrekuensiSudut()">Hitung ω</button>
+
+    <div class="result" id="result"></div>
+    <div class="result" id="steps" style="font-weight: normal;"></div>
+
+    <canvas id="chart" height="100"></canvas>
+  </div>
+
+  <!-- Penjelasan Rumus -->
+  <div class="container">
+    <h1>Frekuensi Sudut (ω)</h1>
+    <p>Frekuensi sudut menyatakan seberapa cepat putaran dalam sistem osilasi atau gerak periodik. Nilai ini diukur
+      dalam radian per detik dan dirumuskan sebagai:</p>
+    <div class="rumus">ω = 2πf atau ω = 2π / T</div>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Script Kalkulasi dan Visualisasi -->
+  <script>
+    function hitungFrekuensiSudut() {
+      let f = parseFloat(document.getElementById('f').value);
+      let T = parseFloat(document.getElementById('T').value);
+      let resultText = '';
+      let stepText = '';
+      let omega;
+
+      if (f) {
+        omega = 2 * Math.PI * f;
+        resultText = `Frekuensi Sudut (ω) berdasarkan f: ${omega.toFixed(2)} rad/detik`;
+        stepText = `Langkah Perhitungan:<br>ω = 2πf<br>ω = 2 × ${Math.PI.toFixed(4)} × ${f}<br>ω = ${omega.toFixed(4)} rad/detik`;
+      } else if (T) {
+        omega = 2 * Math.PI / T;
+        resultText = `Frekuensi Sudut (ω) berdasarkan T: ${omega.toFixed(2)} rad/detik`;
+        stepText = `Langkah Perhitungan:<br>ω = 2π / T<br>ω = 2 × ${Math.PI.toFixed(4)} / ${T}<br>ω = ${omega.toFixed(4)} rad/detik`;
+      } else {
+        document.getElementById('result').textContent = 'Harap masukkan salah satu nilai (Frekuensi atau Periode).';
+        document.getElementById('steps').innerHTML = '';
+        return;
+      }
+
+      document.getElementById('result').textContent = resultText;
+      document.getElementById('steps').innerHTML = stepText;
+
+      // Visualisasi sinyal y(t) = sin(ωt)
+      const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1); // durasi 1 detik
+      const y = t.map(ti => Math.sin(omega * ti));
+
+      const ctx = document.getElementById('chart').getContext('2d');
+      if (window.chartInstance) window.chartInstance.destroy();
+
+      window.chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: t.map(v => v.toFixed(3)),
+          datasets: [{
+            label: 'y(t) = sin(ωt)',
+            data: y,
+            borderColor: '#3A59D1',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Waktu (t) dalam detik'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Amplitudo'
+              },
+              min: -1.2,
+              max: 1.2
+            }
+          },
+          plugins: {
+            legend: { display: true }
+          }
+        }
+      });
+    }
+  </script>
+
+</body>
+
+</html>

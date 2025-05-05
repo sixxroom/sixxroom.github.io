@@ -4,24 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perhitungan Fisika</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css"/>
+    <style>
+        select{
+            border: none;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-
     <nav>
         <div class="wrapper">
             <div class="logo"><a href=''>Fisika Dasar 2A</a></div>
             <div class="menu">
                 <ul>
-                    <li><a href="#Utama">Utama</a></li>
-                    <li><a href="#Materi">Materi</a></li>
-                    <li><a href="#Anggota">Anggota</a></li>
-                    <li><a href="./Jawaban.html">Rumus</a></li>
+                    <li><a href="/#Utama">Utama</a></li>
+                    <li><a href="/#Materi">Materi</a></li>
+                    <li><a href="/#Anggota">Anggota</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Perhitungan</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/perhitungan/rumus1/">Rumus 1</a></li>
+                            <li><a href="/perhitungan/rumus2/">Rumus 2</a></li>
+                            <li><a href="/perhitungan/rumus3/">Rumus 3</a></li>
+                        </ul>
+                    </li>
+                    
                     <li><a href="" class="tbl-biru">Sixxroom</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+
 
     <div class="wrapper">
         <!--untuk Utama-->
@@ -37,6 +54,7 @@
 
         <!--untuk Materi-->
         <section id= "Materi" class="rumus">
+
             <div>
                 <p class="deskripsi"></p>
                 <h2>Arus Bolak-Balik</h2>
@@ -78,7 +96,6 @@
 
             <img src="">
         </section>
-
 
         <!--untuk Anggotas-->
         <section id="Anggota">

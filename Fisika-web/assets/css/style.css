@@ -1,9 +1,16 @@
+/* Existing styles... */
 * {
     scroll-behavior: smooth;
     box-sizing: border-box;
     text-decoration: none;
     margin: 0px;
     padding: 0px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'open sans', sans-serif;
 }
 
 .wrapper {
@@ -37,51 +44,62 @@ nav {
     border: 1px solid #213448;
 }
 
-.dropdown {
-position: relative;
+/* Ensure dropdown parent has position context */
+nav ul li.dropdown {
+    position: relative;
 }
 
+/* Style dropdown menu */
 .dropdown-menu {
-display: none;
-position: absolute;
-background-color: white;
-border: 1px solid #213448;
-border-radius: 5px;
-top: 100%;
-left: 0;
-min-width: 150px;
-z-index: 1000;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #213448;
+    border-radius: 5px;
+    min-width: 160px;
+    z-index: 9999;
 }
 
-.dropdown-menu li {
-display: block;
-width: 100%;
+/* Show on hover */
+nav ul li.dropdown:hover>.dropdown-menu {
+    display: block;
 }
 
+/* Style dropdown links */
 .dropdown-menu li a {
-display: block;
-padding: 10px;
-color: #213448;
-font-weight: bold;
-text-decoration: none;
+    display: flex;                  /* Flex container */
+    justify-content: center;       /* Horizontal center */
+    align-items: center;           /* Vertical center */
+    height: 40px;                  /* Atur tinggi agar kotak cukup besar */
+    min-width: 160px;              /* Lebar dropdown */
+    padding: 0 10px;
+    color: #213448;
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: none;
 }
+
 
 .dropdown-menu li a:hover {
-background-color: #3A59D1;
-color: white;
+    top: 100%;
+    left: 0;
+    border: 1px solid #213448;
+    border-radius: 5px;
+    min-width: 160px;
+    z-index: 9999;
+    text-align: center;
+    background-color: #3A59D1;
+    color: white;
 }
 
-.dropdown:hover > .dropdown-menu {
-display: block;
-}
-
-i want these select will be show if user hover on li 
 
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
 }
 
 ul {
@@ -90,16 +108,16 @@ ul {
     padding: 0;
 }
 
-
 nav ul li {
     float: left;
+    position: relative;
 }
 
 nav ul li a {
     color: black;
     font-weight: bold;
     text-align: center;
-    padding: 0px 16px 0px 16px;
+    padding: 0px 16px;
     text-decoration: none;
 }
 
@@ -111,7 +129,6 @@ section {
     margin: auto;
     display: flex;
     margin-bottom: 50px;
-
 }
 
 .rumus {
@@ -133,7 +150,7 @@ section {
 
 h2 {
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: 800px;
+    font-weight: 800;
     font-size: 45px;
     margin-bottom: 20px;
     color: #213448;
@@ -145,7 +162,7 @@ a.tbl-biru {
     background: #3A59D1;
     border-radius: 20px;
     margin-top: 20px;
-    padding: 15px 20px 15px 20px;
+    padding: 15px 20px;
     color: #ffffff;
     cursor: pointer;
     font-weight: bold;
@@ -160,7 +177,7 @@ a.tbl-pink {
     background: palevioletred;
     border-radius: 20px;
     margin-top: 20px;
-    padding: 15px 20px 15px 20px;
+    padding: 15px 20px;
     color: #ffffff;
     cursor: pointer;
     font-weight: bold;
@@ -172,8 +189,8 @@ a.tbl-pink:hover {
 }
 
 p {
-    margin: 10px 0px 10px 0px;
-    padding: 10px 0px 10px 0px;
+    margin: 10px 0px;
+    padding: 10px 0px;
 }
 
 .tengah {
@@ -264,7 +281,8 @@ p {
         font-size: 14px;
     }
 
-    a.tbl-biru, a.tbl-pink {
+    a.tbl-biru,
+    a.tbl-pink {
         font-size: 14px;
         padding: 10px 16px;
     }

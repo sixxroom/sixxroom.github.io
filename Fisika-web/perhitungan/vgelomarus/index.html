@@ -147,30 +147,32 @@
         </ul>
 
         <!-- Mobile Menu Toggle -->
-        <span class="mobile-menu-toggle" onclick="openSidebar()">☰</span>
+        <span class="mobile-menu-toggle" onclick="toggleSidebar()">☰</span>
     </nav>
 
-    <!-- Mobile Sidebar -->
+    <!-- Sidebar Mobile -->
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
         <a href="/Fisika-web/#Utama" onclick="closeSidebar()">Utama</a>
         <a href="/Fisika-web/#Materi" onclick="closeSidebar()">Materi</a>
         <a href="/Fisika-web/#Anggota" onclick="closeSidebar()">Anggota</a>
 
-
         <div class="sidebar-dropdown">
-            <a href="javascript:void(0)" onclick="toggleSidebarDropdown()">Perhitungan ▼</a>
+            <!-- Hapus closeSidebar di sini --><button type="button" class="sidebar-dropdown-toggle">Perhitungan
+                ▼</button>
             <div class="sidebar-dropdown-menu" id="perhitunganDropdown">
-                <a href="/Fisika-web/perhitungan/kalrlc/" onclick="closeSidebar()">RLC</a>
-                <a href="/Fisika-web/perhitungan/frekuensi/" onclick="closeSidebar()">Frekuensi Sudut</a>
-                <a href="/Fisika-web/perhitungan/impendansi/" onclick="closeSidebar()">Impedansi RLC</a>
-                <a href="/Fisika-web/perhitungan/arusmax/" onclick="closeSidebar()">Arus Maximum</a>
-                <a href="/Fisika-web/perhitungan/arusefektif/" onclick="closeSidebar()">Arus Efektif</a>
-                <a href="/Fisika-web/perhitungan/vgelomarus/" onclick="closeSidebar()">Gelombang Arus AC</a>
+                <a href="/Fisika-web/perhitungan/kalrlc/">RLC</a>
+                <a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a>
+                <a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a>
+                <a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a>
+                <a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a>
+                <a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a>
             </div>
         </div>
-        <a href="/Fisika-web/#Utama" class="tbl-biru">Sixxroom</a>
+
+        <a href="/Fisika-web/#Utama" class="tbl-biru2" onclick="closeSidebar()">Sixxroom</a>
     </div>
+
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
@@ -270,6 +272,39 @@
                 }
             });
         }
+    </script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.width === "200px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "200px";
+            }
+        }
+    </script>
+
+
+    <script>
+        document.querySelectorAll("#mySidebar a").forEach(link => {
+            link.addEventListener("click", () => closeSidebar());
+        });
+
+        // New: Toggle dropdown menu in sidebar
+        const dropdownToggle = document.querySelector(".sidebar-dropdown-toggle");
+        const dropdownMenu = document.getElementById("perhitunganDropdown");
+
+        dropdownToggle.addEventListener("click", () => {
+            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+        });
+
+        // Prevent closing sidebar when clicking on dropdown links
+        dropdownMenu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", (e) => {
+                // Optional: close the sidebar if desired
+                // closeSidebar();
+            });
+        });
     </script>
 </body>
 

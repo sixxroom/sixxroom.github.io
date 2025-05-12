@@ -174,7 +174,7 @@ a.tbl-pink {
     background: palevioletred;
     display: inline-block;
     border-radius: 15px;
-    padding: 10px 50px;
+    padding: 10px 20px;
     color: #ffffff;
     cursor: pointer;
     font-weight: bold;
@@ -232,6 +232,33 @@ p {
 .tengah {
     text-align: center;
     width: 100%;
+}
+
+.tengah2 {
+    text-align: center;
+    width: 100%;
+}
+
+
+.kartu-Anggota {
+    width: 200px;
+    text-align: center;
+}
+
+.kartu-Anggota2 img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.kartu-Anggota2 p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: #213448;
 }
 
 /* Anggota Section */

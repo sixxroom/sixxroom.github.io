@@ -2,310 +2,813 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visualisasi Arus AC</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <script>
-        function toggleSidebarDropdown() {
-            const menu = document.getElementById("perhitunganDropdown");
-            menu.style.display = menu.style.display === "block" ? "none" : "block";
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualisasi Gelombang Arus AC</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
-        function openSidebar() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 0;
+      margin: 0;
+    }
 
-        function closeSidebar() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-    </script>
-    <style>
-        select {
-            border: none;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-    </style>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    .calculator-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      max-width: 900px;
+      margin: 40px auto;
+    }
 
-        body {
-            background-color: #ffffff;
-        }
+    /* Enhanced Form Controls */
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-        }
+    .form-label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        h1 {
-            font-size: 32px;
-            color: #213448;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .form-label .unit {
+      color: #6c757d;
+      font-weight: 400;
+      font-size: 13px;
+    }
 
-        p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #333;
-            line-height: 1.6;
-            text-align: center;
-        }
+    .form-control {
+      border-radius: 12px;
+      border: 2px solid #e9ecef;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #2c3e50;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: #fff;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
 
-        input {
-            padding: 10px;
-            margin: 10px 0;
-            width: 90%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+    .form-control:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+      outline: none;
+      background-color: #fff;
+      transform: translateY(-1px);
+    }
 
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #3A59D1;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .form-control:hover:not(:focus) {
+      border-color: #bdc3c7;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    }
 
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #3A59D1;
-            text-align: center;
-        }
+    .form-control::placeholder {
+      color: #95a5a6;
+      font-weight: 400;
+    }
 
-        .rumus {
-            background-color: #3A59D1;
-            color: #ffffff;
-            font-weight: bold;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
+    /* Input Icons */
+    .input-wrapper {
+      position: relative;
+    }
 
-        #steps {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #555;
-            text-align: center;
-            line-height: 1.6;
-        }
+    .input-wrapper .input-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #95a5a6;
+      font-size: 16px;
+      pointer-events: none;
+    }
 
-        canvas {
-            display: block;
-            margin: 30px auto;
-            max-width: 100%;
-        }
-    </style>
+    .form-control.with-icon {
+      padding-right: 45px;
+    }
+
+    /* Button Styling */
+    .btn-calculate {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-calculate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+
+    .btn-calculate:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-calculate::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-calculate:hover::before {
+      left: 100%;
+    }
+
+    /* Result Section */
+    .result-section {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 16px;
+      border: 1px solid #dee2e6;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .result-item {
+      margin-bottom: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(108, 117, 125, 0.1);
+      font-weight: 500;
+      color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: #3498db;
+      font-size: 16px;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      margin-top: 32px;
+      padding: 24px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e9ecef;
+    }
+
+    /* Page Headers */
+    .page-title {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+
+    .page-subtitle {
+      color: #6c757d;
+      margin-bottom: 32px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 80px 0;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .navbar {
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95) !important;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: #3498db !important;
+      font-size: 1.5rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #2c3e50 !important;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #3498db !important;
+    }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h4 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+
+    /* Formula display */
+    .formula-display {
+      background-color: #3498db;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 24px;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .calculator-container {
+        padding: 24px;
+        margin: 20px auto;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-description {
+        font-size: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .btn-calculate {
+        width: 100%;
+        padding: 16px;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Footer */
+    footer {
+      background-color: #f8f9fa;
+      padding: 40px 0;
+      margin-top: 60px;
+      border-top: 1px solid #e9ecef;
+    }
+  </style>
 </head>
 
 <body>
-    <nav>
-        <div class="logo"><a href="">Fisika Dasar 2A</a></div>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Fisika Dasar 2A</a>
 
-        <!-- Desktop Navigation Menu -->
-        <ul class="desktop-menu">
-            <li><a href="/Fisika-web/#Utama">Utama</a></li>
-            <li><a href="/Fisika-web/#Materi">Materi</a></li>
-            <li><a href="/Fisika-web/#Anggota">Anggota</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)">Perhitungan ▼</a>
-                <ul class="dropdown-menu">
-                    <li><a href="/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
-                    <li><a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
-                    <li><a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a></li>
-                    <li><a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a></li>
-                    <li><a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a></li>
-                    <li><a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
-                </ul>
-            </li>
-            <li><a href="/Fisika-web/#Utama" class="tbl-biru">Sixxroom</a></li>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#hero">Utama</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#materi">Materi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#anggota">Anggota</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
+              data-bs-toggle="dropdown">
+              Perhitungan
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusmax/">Arus Maximum</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-primary text-white ms-2 px-3" href="/sixxroom.github.io/Fisika-web/#hero">Sixxroom</a>
+          </li>
         </ul>
-        </ul>
+      </div>
+    </div>
+  </nav>
 
-        <!-- Mobile Menu Toggle -->
-        <span class="mobile-menu-toggle" onclick="toggleSidebar()">☰</span>
-    </nav>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Visualisasi Gelombang Arus AC</h1>
+        <p class="hero-description">Simulasikan dan visualisasikan gelombang arus AC dengan memasukkan parameter-parameter dasar</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Sidebar Mobile -->
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-        <a href="/Fisika-web/#Utama" onclick="closeSidebar()">Utama</a>
-        <a href="/Fisika-web/#Materi" onclick="closeSidebar()">Materi</a>
-        <a href="/Fisika-web/#Anggota" onclick="closeSidebar()">Anggota</a>
+  <!-- Calculator Section -->
+  <div class="container">
+    <div class="calculator-container">
+      <h2 class="page-title">Parameter Input</h2>
+      <p class="page-subtitle">Masukkan nilai arus maksimum, frekuensi, dan fase awal untuk memvisualisasikan bentuk gelombang arus</p>
 
-        <div class="sidebar-dropdown">
-            <!-- Hapus closeSidebar di sini --><button type="button" class="sidebar-dropdown-toggle">Perhitungan
-                ▼</button>
-            <div class="sidebar-dropdown-menu" id="perhitunganDropdown">
-                <a href="/Fisika-web/perhitungan/kalrlc/">RLC</a>
-                <a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a>
-                <a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a>
-                <a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a>
-                <a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a>
-                <a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-lightning"></i>
+              Arus Maksimum (Imax)
+              <span class="unit">(Ampere)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="number" class="form-control with-icon" id="imax" value="10" step="0.1"
+                placeholder="Masukkan arus maksimum">
+              <i class="bi bi-lightning-charge input-icon"></i>
             </div>
+          </div>
         </div>
 
-        <a href="/Fisika-web/#Utama" class="tbl-biru2" onclick="closeSidebar()">Sixxroom</a>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-activity"></i>
+              Frekuensi (f)
+              <span class="unit">(Hz)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="number" class="form-control with-icon" id="freq" value="50" step="0.1"
+                placeholder="Masukkan frekuensi">
+              <i class="bi bi-soundwave input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-compass"></i>
+              Fase Awal (φ)
+              <span class="unit">(radian)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="number" class="form-control with-icon" id="phi" value="0" step="0.01"
+                placeholder="Masukkan fase awal">
+              <i class="bi bi-arrow-clockwise input-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-calculate" onclick="hitungArusAC()">
+          <i class="bi bi-graph-up me-2"></i>Hitung dan Tampilkan Grafik
+        </button>
+      </div>
+
+      <div class="result-section" id="result-container" style="display: none;">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-info-circle"></i>
+          </div>
+          <h4>Hasil Perhitungan</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="result-item">
+              <span>Frekuensi Sudut (ω):</span>
+              <span class="result-value" id="result-omega">-- rad/s</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="result-item">
+              <span>Fase Awal (φ):</span>
+              <span class="result-value" id="result-phi">-- rad</span>
+            </div>
+          </div>
+        </div>
+        <div id="calculation-steps" class="mt-3 text-muted fst-italic"></div>
+      </div>
+
+      <div class="chart-container" id="chart-container" style="display: none;">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-bar-chart-line"></i>
+          </div>
+          <h4>Visualisasi Gelombang Arus AC</h4>
+        </div>
+        <canvas id="chart" height="300"></canvas>
+      </div>
+
+      <div class="formula-display mt-4">I(t) = Imax × sin(ωt - φ)</div>
+
+      <div class="mt-4">
+        <div class="card border-0 bg-light">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Keterangan Rumus:</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><strong>I(t)</strong> = arus pada waktu t (Ampere)</li>
+              <li class="mb-2"><strong>Imax</strong> = nilai maksimum amplitudo arus (Ampere)</li>
+              <li class="mb-2"><strong>ω</strong> = frekuensi sudut = 2πf (rad/s)</li>
+              <li class="mb-2"><strong>φ</strong> = pergeseran fase awal (radian)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-        <a href="/Fisika-web/#Utama">Utama</a>
-        <a href="/Fisika-web/#Materi">Materi</a>
-        <a href="/Fisika-web/#Anggota">Anggota</a>
-        <a href="/Fisika-web/#Utama">Sixxroom</a>
-    </div>
-
+  <!-- Footer -->
+  <footer class="bg-light text-center py-4 mt-5">
     <div class="container">
-        <h1>Visualisasi Gelombang Arus AC</h1>
-        <p>Masukkan nilai arus maksimum (Imax), frekuensi (f), dan fase awal (φ) dalam radian untuk memvisualisasikan
-            bentuk gelombang arus:</p>
-
-        <input type="number" id="imax" placeholder="Imax (Ampere)" step="any">
-        <input type="number" id="freq" placeholder="Frekuensi (f) dalam Hertz" step="any">
-        <input type="number" id="phi" placeholder="Fase Awal (φ) dalam radian" step="any">
-        <button onclick="hitungArusAC()">Hitung dan Tampilkan Grafik</button>
-
-        <div class="result" id="result"></div>
-        <div class="result" id="steps" style="font-weight: normal;"></div>
-
-        <canvas id="chart" height="100"></canvas>
-
-        <div class="rumus">I(t) = Imax × sin(ωt − φ)</div>
-
-        <p>Di mana:<br>
-            I(t) = arus pada waktu t<br>
-            Imax = arus maksimum (Ampere)<br>
-            ω = 2πf (frekuensi sudut)<br>
-            φ = pergeseran fase (radian)
-        </p>
+      <p class="mb-0 text-muted">&copy; 2025 Fisika Dasar 2A - Kelompok 8. All rights reserved.</p>
     </div>
+  </footer>
 
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Script -->
-    <script>
-        function hitungArusAC() {
-            const imax = parseFloat(document.getElementById('imax').value);
-            const freq = parseFloat(document.getElementById('freq').value);
-            const phi = parseFloat(document.getElementById('phi').value);
-            const resultEl = document.getElementById('result');
-            const stepsEl = document.getElementById('steps');
+  <script>
+    function hitungArusAC() {
+      const button = document.querySelector('.btn-calculate');
+      const originalText = button.innerHTML;
 
-            if (!imax || !freq) {
-                resultEl.textContent = 'Mohon masukkan nilai Imax dan Frekuensi.';
-                stepsEl.innerHTML = '';
-                return;
-            }
+      // Loading state
+      button.innerHTML = '<span class="loading"></span> Menghitung...';
+      button.disabled = true;
 
-            const omega = 2 * Math.PI * freq;
+      // Reset validation states
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.classList.remove('is-invalid', 'is-valid');
+      });
 
-            resultEl.textContent = `Frekuensi Sudut ω = ${omega.toFixed(2)} rad/detik`;
+      setTimeout(() => {
+        try {
+          const imax = parseFloat(document.getElementById('imax').value);
+          const freq = parseFloat(document.getElementById('freq').value);
+          const phi = parseFloat(document.getElementById('phi').value);
 
-            stepsEl.innerHTML = `Langkah:<br>ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s<br>φ = ${phi || 0} rad`;
+          // Validation
+          let hasErrors = false;
+          if (isNaN(imax) || imax <= 0) {
+            document.getElementById('imax').classList.add('is-invalid');
+            hasErrors = true;
+          } else {
+            document.getElementById('imax').classList.add('is-valid');
+          }
 
-            const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1); // 1 detik
-            const y = t.map(ti => imax * Math.sin(omega * ti - (phi || 0)));
+          if (isNaN(freq) || freq <= 0) {
+            document.getElementById('freq').classList.add('is-invalid');
+            hasErrors = true;
+          } else {
+            document.getElementById('freq').classList.add('is-valid');
+          }
 
-            const ctx = document.getElementById('chart').getContext('2d');
-            if (window.chartInstance) window.chartInstance.destroy();
+          if (isNaN(phi)) {
+            document.getElementById('phi').classList.add('is-invalid');
+            hasErrors = true;
+          } else {
+            document.getElementById('phi').classList.add('is-valid');
+          }
 
-            window.chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: t.map(v => v.toFixed(3)),
-                    datasets: [{
-                        label: 'I(t) = Imax × sin(ωt − φ)',
-                        data: y,
-                        borderColor: '#3A59D1',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        fill: false
-                    }]
+          if (hasErrors) {
+            alert('Mohon periksa kembali nilai yang Anda masukkan!');
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('chart-container').style.display = 'none';
+            return;
+          }
+
+          // Calculate
+          const omega = 2 * Math.PI * freq;
+          
+          // Display results
+          document.getElementById('result-omega').textContent = omega.toFixed(2) + " rad/s";
+          document.getElementById('result-phi').textContent = phi.toFixed(2) + " rad";
+          document.getElementById('calculation-steps').innerHTML = 
+            `Langkah perhitungan:<br>
+             ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s<br>
+             φ = ${phi} rad`;
+
+          // Show results
+          document.getElementById('result-container').style.display = 'block';
+          document.getElementById('chart-container').style.display = 'block';
+
+          // Generate graph data
+          const points = 1000;
+          const timeEnd = 2 / freq; // 2 periods
+          const t = Array.from({ length: points }, (_, i) => i * timeEnd / (points - 1));
+          const I_t = t.map(ti => imax * Math.sin(omega * ti - phi));
+
+          // Create chart
+          const ctx = document.getElementById('chart').getContext('2d');
+          if (window.chartInstance) window.chartInstance.destroy();
+
+          window.chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: t.map(v => (v * 1000).toFixed(1)), // Convert to milliseconds
+              datasets: [{
+                label: 'Arus I(t) [A]',
+                data: I_t,
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                borderWidth: 3,
+                pointRadius: 0,
+                fill: false,
+                tension: 0.1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: {
+                intersect: false,
+                mode: 'index'
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Waktu (ms)',
+                    font: { size: 14, weight: 'bold' },
+                    color: '#2c3e50'
+                  },
+                  grid: {
+                    color: 'rgba(108, 117, 125, 0.1)',
+                    drawBorder: false
+                  },
+                  ticks: {
+                    color: '#6c757d',
+                    font: { size: 12 }
+                  }
                 },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Waktu (t) dalam detik'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Arus (Ampere)'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: true }
-                    }
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Arus (Ampere)',
+                    font: { size: 14, weight: 'bold' },
+                    color: '#2c3e50'
+                  },
+                  grid: {
+                    color: 'rgba(108, 117, 125, 0.1)',
+                    drawBorder: false
+                  },
+                  ticks: {
+                    color: '#6c757d',
+                    font: { size: 12 }
+                  }
                 }
-            });
-        }
-    </script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById("mySidebar");
-            if (sidebar.style.width === "200px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "200px";
+              },
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                  labels: {
+                    usePointStyle: true,
+                    font: { size: 13, weight: '500' },
+                    color: '#2c3e50',
+                    padding: 20
+                  }
+                },
+                tooltip: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                  titleColor: '#fff',
+                  bodyColor: '#fff',
+                  borderColor: '#3498db',
+                  borderWidth: 1,
+                  cornerRadius: 8,
+                  displayColors: true,
+                  callbacks: {
+                    label: function (context) {
+                      return `Arus I(t): ${context.formattedValue} A`;
+                    }
+                  }
+                }
+              },
+              animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
+              }
             }
-        }
-    </script>
+          });
 
-
-    <script>
-        document.querySelectorAll("#mySidebar a").forEach(link => {
-            link.addEventListener("click", () => closeSidebar());
-        });
-
-        // New: Toggle dropdown menu in sidebar
-        const dropdownToggle = document.querySelector(".sidebar-dropdown-toggle");
-        const dropdownMenu = document.getElementById("perhitunganDropdown");
-
-        dropdownToggle.addEventListener("click", () => {
-            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-        });
-
-        // Prevent closing sidebar when clicking on dropdown links
-        dropdownMenu.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", (e) => {
-                // Optional: close the sidebar if desired
-                // closeSidebar();
+          // Smooth scroll to results
+          setTimeout(() => {
+            document.getElementById('result-container').scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
             });
+          }, 300);
+
+        } catch (error) {
+          alert('Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.');
+          console.error('Calculation error:', error);
+        } finally {
+          // Restore button
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+          }, 1000);
+        }
+      }, 500);
+    }
+
+    // Handle keyboard shortcuts
+    document.addEventListener('keydown', function (e) {
+      // Ctrl/Cmd + Enter to calculate
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        hitungArusAC();
+      }
+    });
+
+    // Initialize input validation
+    document.addEventListener('DOMContentLoaded', function () {
+      // Input validation on focus/blur
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('focus', function () {
+          this.classList.remove('is-invalid');
         });
-    </script>
+
+        input.addEventListener('input', function () {
+          // Real-time validation
+          const value = parseFloat(this.value);
+          if (this.value && !isNaN(value) && (this.id === 'phi' || value > 0)) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+          } else if (this.value) {
+            this.classList.remove('is-valid');
+            this.classList.add('is-invalid');
+          } else {
+            this.classList.remove('is-valid', 'is-invalid');
+          }
+        });
+      });
+
+      // Fade in animation for page load
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.6s ease';
+
+      setTimeout(() => {
+        document.body.style.opacity = '1';
+      }, 100);
+    });
+
+    // Reset form function
+    function resetForm() {
+      document.getElementById('imax').value = '10';
+      document.getElementById('freq').value = '50';
+      document.getElementById('phi').value = '0';
+      
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.classList.remove('is-invalid', 'is-valid');
+      });
+      
+      document.getElementById('result-container').style.display = 'none';
+      document.getElementById('chart-container').style.display = 'none';
+      
+      if (window.chartInstance) {
+        window.chartInstance.destroy();
+        window.chartInstance = null;
+      }
+    }
+
+    // Export chart as image function
+    function exportChart() {
+      if (!window.chartInstance) {
+        alert('Tidak ada grafik untuk diekspor. Lakukan perhitungan terlebih dahulu.');
+        return;
+      }
+      
+      const canvas = document.getElementById('chart');
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `gelombang_arus_ac_${new Date().toISOString().slice(0, 10)}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // Add control buttons after document is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add reset and export buttons
+      const calculateButton = document.querySelector('.btn-calculate');
+      const controlDiv = document.createElement('div');
+      controlDiv.className = 'text-center mt-3';
+      controlDiv.innerHTML = `
+        <button class="btn btn-outline-secondary me-2" onclick="resetForm()">
+          <i class="bi bi-arrow-clockwise me-1"></i>Reset
+        </button>
+        <button class="btn btn-outline-success" onclick="exportChart()">
+          <i class="bi bi-download me-1"></i>Export Grafik
+        </button>
+      `;
+      calculateButton.parentNode.insertBefore(controlDiv, calculateButton.nextSibling);
+    });
+  </script>
 </body>
 
 </html>

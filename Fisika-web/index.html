@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perhitungan Fisika</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script>
         function toggleSidebarDropdown() {
             const menu = document.getElementById("perhitunganDropdown");
@@ -32,192 +34,340 @@
 </head>
 
 <body>
-    <nav>
-        <div class="logo"><a href="">Fisika Dasar 2A</a></div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#hero">Fisika Dasar 2A</a>
 
-        <!-- Desktop Navigation Menu -->
-        <ul class="desktop-menu">
-            <li><a href="/Fisika-web/#Utama">Utama</a></li>
-            <li><a href="/Fisika-web/#Materi">Materi</a></li>
-            <li><a href="/Fisika-web/#Anggota">Anggota</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)">Perhitungan ▼</a>
-                <ul class="dropdown-menu">
-                    <li><a href="/Fisika-web/perhitungan/kalrlc">RLC</a></li>
-                    <li><a href="/Fisika-web/perhitungan/frekuensi">Frekuensi Sudut</a></li>
-                    <li><a href="/Fisika-web/perhitungan/impendansi">Impedansi RLC</a></li>
-                    <li><a href="/Fisika-web/perhitungan/arusmax">Arus Maximum</a></li>
-                    <li><a href="/Fisika-web/perhitungan/arusefektif">Arus Efektif</a></li>
-                    <li><a href="/Fisika-web/perhitungan/vgelomarus">Gelombang Arus AC</a></li>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#hero">Utama</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#materi">Materi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#anggota">Anggota</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            Perhitungan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
+                            <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
+                            <li><a class="dropdown-item" href="/Fisika-web/perhitungan/impendansi/#impedansi">Impedansi RLC</a></li>
+                            <li><a class="dropdown-item" href="/Fisika-web/perhitungan/arusmax/#arusmax">Arus Maximum</a></li>
+                            <li><a class="dropdown-item" href="/Fisika-web/perhitungan/arusefektif/#arusefektif">Arus Efektif</a></li>
+                            <li><a class="dropdown-item" href="/Fisika-web/perhitungan/vgelomarus/#gelombang">Gelombang Arus AC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-custom-blue text-white ms-2" href="#hero">Sixxroom</a>
+                    </li>
                 </ul>
-            </li>
-            <li><a href="/Fisika-web/#Utama" class="tbl-biru">Sixxroom</a></li>
-        </ul>
-        </ul>
-
-        <!-- Mobile Menu Toggle -->
-        <span class="mobile-menu-toggle" onclick="toggleSidebar()">☰</span>
+            </div>
+        </div>
     </nav>
 
-    <!-- Sidebar Mobile -->
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-        <a href="/Fisika-web/#Utama" onclick="closeSidebar()">Utama</a>
-        <a href="/Fisika-web/#Materi" onclick="closeSidebar()">Materi</a>
-        <a href="/Fisika-web/#Anggota" onclick="closeSidebar()">Anggota</a>
+    <!-- Hero Section -->
+    <section id="hero" class="container-fluid">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2">
+                    <img src="" alt="Electrotechnology Illustration">
+                </div>
+                <div class="col-lg-6 order-lg-1 hero-text">
+                    <p class="hero-description">Rumus menghitung Fisika Dasar 2A</p>
+                    <h1 class="hero-title">Arus Listrik Bolak-Balik</h1>
+                    <p class="lead mb-4">Mari menghitung rumus Fisika Arus Bolak-Balik dengan mudah dan interaktif</p>
+                    <a href="https://www.ruangguru.com/blog/rangkaian-arus-bolak-balik" target="_blank"
+                        class="text-link-blue">
+                        Pelajari lebih lanjut
+                    </a>
+                    <small class="d-block mt-2 text-muted">*Ruangguru</small>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <div class="sidebar-dropdown">
-            <button type="button" class="sidebar-dropdown-toggle">Perhitungan
-                ▼</button>
-            <div class="sidebar-dropdown-menu" id="perhitunganDropdown">
-                <a href="/Fisika-web/perhitungan/kalrlc/">RLC</a>
-                <a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a>
-                <a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a>
-                <a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a>
-                <a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a>
-                <a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a>
+    <!-- Material Section -->
+    <section id="materi" class="container">
+        <h2 class="section-title">Arus Bolak-Balik</h2>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="material-card">
+                    <h3 class="material-title">Frekuensi Sudut (ω)</h3>
+                    <p class="material-text">
+                        Frekuensi sudut menyatakan seberapa cepat putaran dalam sistem osilasi AC.<br>
+                        <strong>Rumus: ω = 2πf</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="material-card">
+                    <h3 class="material-title">Impedansi RLC (Z)</h3>
+                    <p class="material-text">
+                        Impedansi adalah total hambatan dalam rangkaian RLC.<br>
+                        <strong>Rumus: Z = √(R² + (XL - XC)²)</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="material-card">
+                    <h3 class="material-title">Sudut Fase (φ)</h3>
+                    <p class="material-text">
+                        Sudut fase menggambarkan beda waktu antara tegangan dan arus.<br>
+                        <strong>Rumus: φ = arctan((XL - XC)/R)</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="material-card">
+                    <h3 class="material-title">Arus Maksimum (Imax)</h3>
+                    <p class="material-text">
+                        Arus maksimum adalah nilai puncak arus dalam rangkaian AC.<br>
+                        <strong>Rumus: Imax = Vmax / Z</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="material-card">
+                    <h3 class="material-title">Arus Efektif (Irms)</h3>
+                    <p class="material-text">
+                        Irms adalah nilai setara DC dari arus AC.<br>
+                        <strong>Rumus: Irms = Imax / √2</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="material-card">
+                    <h3 class="material-title">Daya Listrik AC</h3>
+                    <p class="material-text">
+                        Daya pada rangkaian AC terdiri dari:<br>
+                        • Aktif (P) = Vrms × Irms × cos(φ)<br>
+                        • Reaktif (Q) = Vrms × Irms × sin(φ)<br>
+                        • Semu (S) = Vrms × Irms
+                    </p>
+                </div>
             </div>
         </div>
 
-        <a href="/Fisika-web/#Utama" class="tbl-biru2" onclick="closeSidebar()">Sixxroom</a>
-    </div>
-
-
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-        <a href="/Fisika-web/#Utama">Utama</a>
-        <a href="/Fisika-web/#Materi">Materi</a>
-        <a href="/Fisika-web/#Anggota">Anggota</a>
-        <a href="/Fisika-web/#Utama">Sixxroom</a>
-    </div>
-
-    <div class="wrapper">
-        <section id="Utama">
-            <img src="https://img.freepik.com/free-vector/electrotechnology-abstract-concept-vector-illustration-certification-electrotechnology-electrical-engineering-practice-industrial-science-power-system-design-electronics-abstract-metaphor_335657-6324.jpg?w=740"
-                style="max-width:100%;">
-            <div class="kolom">
-                <p class="deskripsi">Rumus menghitung Fisika Dasar 2A</p>
-                <h2>Arus Listrik Bolak-Balik</h2>
-                <p>Mari menghitung rumus Fisika Arus Bolak-Balik</p>
-                <p><a target="_blank" href="https://www.ruangguru.com/blog/rangkaian-arus-bolak-balik"
-                        class="tbl-pink">Pelajari lebih lanjut</a></p><sup>*Ruangguru</sup>
-            </div>
-        </section>
-
-        <section id="Materi" class="rumus">
-            <div>
-                <h2>Arus Bolak-Balik</h2>
-                <strong style="font-size: 30px;">Frekuensi Sudut (ω)</strong>
-                <p style="font-size: 23px">Frekuensi sudut menyatakan seberapa cepat putaran dalam sistem osilasi AC.
-                    <br> Rumus: ω = 2π
-                </p>
-            </div>
-            <div>
-                <strong style="font-size: 30px;">Impedansi RLC (Z)</strong>
-                <p style="font-size: 23px">Impedansi adalah total hambatan dalam rangkaian RLC. <br> Rumus: Z = √(R² +
-                    (XL - XC)²)</p>
-            </div>
-            <div>
-                <strong style="font-size: 30px;">Sudut Fase (φ)</strong>
-                <p style="font-size: 23px">Sudut fase menggambarkan beda waktu antara tegangan dan arus.<br>Rumus: φ =
-                    arctan((XL - XC)/R)</p>
-            </div>
-            <div>
-                <strong style="font-size: 30px;">Arus Maksimum (Imax)</strong>
-                <p style="font-size: 23px">Arus maksimum adalah nilai puncak arus dalam rangkaian AC.<br>Rumus: Imax =
-                    Vmax / Z</p>
-            </div>
-            <div>
-                <strong style="font-size: 30px;">Arus Efektif (Irms)</strong>
-                <p style="font-size: 23px">Irms adalah nilai setara DC dari arus AC.<br>Rumus: Irms = Imax / √2</p>
-            </div>
-            <div>
-                <strong style="font-size: 30px;">Daya Listrik AC</strong>
-                <p style="font-size: 23px">Daya pada rangkaian AC terdiri dari:<br>- Aktif (P) = Vrms × Irms × cos(φ)
-                    <br> - Reaktif (Q) = Vrms × Irms × sin(φ)\n- Semu (S) = Vrms × Irms
-                </p>
-            </div>
-            <div>
-                <strong style="font-size: 30px;">Visualisasi Gelombang Arus AC</strong>
-                <p style="font-size: 23px">Gelombang arus sinusoidal dalam AC ditentukan oleh: <br>I(t) = Imax * sin(ωt
-                    - φ)
-                </p>
-                <br>
-
-                <p><a target="_blank" href="https://www.gramedia.com/literasi/arus-bolak-balik/"
-                        class="tbl-pink">Pelajari lebih lanjut</a></p><sup>*Gramedia</sup>
-            </div>
-        </section>
-
-        <section id="Anggota">
-            <div class="tengah">
-                <div class="kolom">
-                    <h2>ANGGOTA</h2>
-                    <p>Anggota Kelompok 8</p>
+        <div class="row">
+            <div class="col-12">
+                <div class="material-card">
+                    <h3 class="material-title">Visualisasi Gelombang Arus AC</h3>
+                    <p class="material-text">
+                        Gelombang arus sinusoidal dalam AC ditentukan oleh:<br>
+                        <strong>I(t) = Imax × sin(ωt - φ)</strong>
+                    </p>
                 </div>
 
-                <div class="Anggota-list">
+                <div class="mt-3">
+                    <a href="https://www.gramedia.com/literasi/arus-bolak-balik/" target="_blank"
+                        class="text-link-blue">
+                        Pelajari lebih lanjut
+                    </a>
+                    <small class="d-block mt-2 text-muted">*Gramedia</small>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div class="tengah2">
-                        <div class="kartu-Anggota2">
-                            <img src="./Img/riad.jpg" />
-                            <p>RIADH RAIHAN</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                class="bi bi-instagram" viewBox="0 0 16 16" color="purple">
-                                <a href="https://www.instagram.com/riadh_raihan?igsh=dXFja3MxZ3B2d2Jk" target="_blank">
-                                    <path
-                                        d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
-                            </svg>
-                            </p>
-                        </div>
+    <!-- Team Section -->
+    <section id="anggota" class="container-fluid">
+        <div class="container">
+            <h2 class="section-title">ANGGOTA</h2>
+            <p class="text-center lead mb-5">Anggota Kelompok 8</p>
 
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                    <div class="team-card">
+                        <img src="/sixxroom.github.io/Fisika-web/Img/riad.jpg" alt="Riadh Raihan" class="team-photo mx-auto d-block">
+                        <h4 class="team-name">RIADH RAIHAN</h4>
+                        <a href="https://www.instagram.com/riadh_raihan?igsh=dXFja3MxZ3B2d2Jk" target="_blank"
+                            class="social-link">
+                            <i class="bi bi-instagram"></i>
+                        </a>
                     </div>
-                    <div class=" kartu-Anggota">
-                        <img src="./Img/angin.jpg" />
-                        <p>TAUFAN HAKIM RAMADHAN</p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                    <div class="team-card">
+                        <img src="/sixxroom.github.io/Fisika-web/Img/angin.jpg" alt="Taufan Hakim" class="team-photo mx-auto d-block">
+                        <h4 class="team-name">TAUFAN HAKIM RAMADHAN</h4>
                     </div>
-                    <div class="kartu-Anggota">
-                        <img src="./Img/om.jpg" />
-                        <p>MUHAMMAD RAIHAN HAFIZ</p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                    <div class="team-card">
+                        <img src="/sixxroom.github.io/Fisika-web/Img/om.jpg" alt="Muhammad Raihan" class="team-photo mx-auto d-block">
+                        <h4 class="team-name">MUHAMMAD RAIHAN HAFIZ</h4>
                     </div>
-                    <div class="kartu-Anggota">
-                        <img src="./Img/dika.jpg" />
-                        <p>MUHAMMAD ADWITYA MAHARDIKA</p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                    <div class="team-card">
+                        <img src="/sixxroom.github.io/Fisika-web/Img/dika.jpg" alt="Muhammad Adwitya" class="team-photo mx-auto d-block">
+                        <h4 class="team-name">MUHAMMAD ADWITYA MAHARDIKA</h4>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById("mySidebar");
-            if (sidebar.style.width === "200px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "200px";
-            }
-        }
-    </script>
+    <!-- Footer -->
+    <footer class="bg-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0 text-muted">&copy; 2024 Fisika Dasar 2A - Kelompok 8. All rights reserved.</p>
+        </div>
+    </footer>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
-        document.querySelectorAll("#mySidebar a").forEach(link => {
-            link.addEventListener("click", () => closeSidebar());
+        // Smooth scrolling for internal links
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all links that start with #
+            const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+
+            smoothScrollLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+
+                    // Only prevent default for actual section links, not dropdown toggles
+                    if (href !== '#' && !this.hasAttribute('data-bs-toggle')) {
+                        e.preventDefault();
+
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            // Calculate offset for fixed navbar
+                            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                            const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Auto-close mobile navbar when clicking on links
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    // Check if navbar is expanded (mobile view)
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarToggler.click();
+                    }
+                });
+            });
+
+            // Add active class to navigation links based on scroll position
+            window.addEventListener('scroll', function () {
+                let current = '';
+                const sections = document.querySelectorAll('section[id]');
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+
+                    if (pageYOffset >= sectionTop - navbarHeight - 100 &&
+                        pageYOffset < sectionTop + sectionHeight - navbarHeight - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                // Update active navigation link
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Team card animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe team cards for animation
+            const teamCards = document.querySelectorAll('.team-card');
+            teamCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Observe material cards for animation
+            const materialCards = document.querySelectorAll('.material-card');
+            materialCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
         });
 
-        // New: Toggle dropdown menu in sidebar
-        const dropdownToggle = document.querySelector(".sidebar-dropdown-toggle");
-        const dropdownMenu = document.getElementById("perhitunganDropdown");
+        // Add loading animation
+        window.addEventListener('load', function () {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
 
-        dropdownToggle.addEventListener("click", () => {
-            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
         });
 
-        // Prevent closing sidebar when clicking on dropdown links
-        dropdownMenu.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", (e) => {
-                // Optional: close the sidebar if desired
-                // closeSidebar();
+        // Enhanced dropdown behavior
+        const dropdownLinks = document.querySelectorAll('.dropdown-item');
+        dropdownLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                // For demo purposes, prevent navigation to non-existent pages
+                if (this.getAttribute('href').includes('#')) {
+                    e.preventDefault();
+                    console.log('Navigating to:', this.textContent);
+
+                    // Close dropdown
+                    const dropdown = bootstrap.Dropdown.getInstance(document.getElementById('perhitunganDropdown'));
+                    if (dropdown) {
+                        dropdown.hide();
+                    }
+                }
             });
         });
     </script>

@@ -5,102 +5,236 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Frekuensi Sudut (ω)</title>
-  <link rel="stylesheet" href="./assets/css/style.css" />
-  <script>
-    function toggleSidebarDropdown() {
-      const menu = document.getElementById("perhitunganDropdown");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    function openSidebar() {
-      document.getElementById("mySidebar").style.width = "250px";
-    }
-
-    function closeSidebar() {
-      document.getElementById("mySidebar").style.width = "0";
-    }
-  </script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <style>
-    select {
-      border: none;
-      font-family: 'Times New Roman', Times, serif;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-  </style>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
     body {
-      background-color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 0;
+      margin: 0;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      background-color: #ffffff;
+    .calculator-container {
+      background: white;
       padding: 40px;
-      border-radius: 10px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      max-width: 900px;
+      margin: 40px auto;
     }
 
-    h1 {
-      font-size: 32px;
-      color: #213448;
-      margin-bottom: 20px;
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-label .unit {
+      color: #6c757d;
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      border: 2px solid #e9ecef;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #2c3e50;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: #fff;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .form-control:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+      outline: none;
+      background-color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #95a5a6;
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .btn-calculate {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
+      position: relative;
+      overflow: hidden;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .btn-calculate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+
+    .result-section {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 16px;
+      border: 1px solid #dee2e6;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .result-item {
+      margin-bottom: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(108, 117, 125, 0.1);
+      font-weight: 500;
+      color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: #3498db;
+      font-size: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h4 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+
+    .chart-container {
+      margin-top: 32px;
+      padding: 24px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e9ecef;
+    }
+
+    .page-title {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 28px;
       text-align: center;
     }
 
-    p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #333;
+    .page-subtitle {
+      color: #6c757d;
+      margin-bottom: 32px;
+      font-size: 16px;
       line-height: 1.6;
       text-align: center;
     }
 
-    input {
-      padding: 10px;
-      margin: 10px 0;
-      width: 90%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      display: block;
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 80px 0;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0;
+      max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.6;
     }
 
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      background-color: #3A59D1;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
+    .navbar {
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95) !important;
     }
 
-    button:hover {
-      background-color: #3A59D1;
+    .navbar-brand {
+      font-weight: 700;
+      color: #3498db !important;
+      font-size: 1.5rem;
     }
 
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #3A59D1;
-      text-align: center;
+    .nav-link {
+      font-weight: 500;
+      color: #2c3e50 !important;
+      transition: color 0.3s ease;
     }
 
-    .rumus {
-      background-color: #3A59D1;
+    .nav-link:hover {
+      color: #3498db !important;
+    }
+
+    .formula-box {
+      background-color: #3498db;
       color: #ffffff;
       font-weight: bold;
       padding: 15px 20px;
@@ -110,225 +244,347 @@
       margin-top: 20px;
     }
 
-    #steps {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #555;
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    canvas {
-      display: block;
-      margin: 30px auto;
-      max-width: 100%;
-    }
-
-    @media screen and (max-width: 600px) {
-      .container {
-        padding: 20px;
+    @media screen and (max-width: 768px) {
+      .calculator-container {
+        padding: 24px;
+        margin: 20px auto;
       }
 
-      h1 {
-        font-size: 26px;
+      .hero-title {
+        font-size: 2rem;
       }
 
-      .rumus {
-        font-size: 20px;
-        padding: 12px;
+      .hero-description {
+        font-size: 1rem;
+      }
+
+      .btn-calculate {
+        width: 100%;
+        padding: 16px;
       }
     }
   </style>
 </head>
 
 <body>
-  <nav>
-    <div class="logo"><a href="">Fisika Dasar 2A</a></div>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Fisika Dasar 2A</a>
 
-    <!-- Desktop Navigation Menu -->
-    <ul class="desktop-menu">
-      <li><a href="/Fisika-web/#Utama">Utama</a></li>
-      <li><a href="/Fisika-web/#Materi">Materi</a></li>
-      <li><a href="/Fisika-web/#Anggota">Anggota</a></li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">Perhitungan ▼</a>
-        <ul class="dropdown-menu">
-          <li><a href="/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
-          <li><a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
-          <li><a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a></li>
-          <li><a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a></li>
-          <li><a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a></li>
-          <li><a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#Utama">Utama</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#Materi">Materi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#Anggota">Anggota</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
+              data-bs-toggle="dropdown">
+              Perhitungan
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusmax/">Arus Maximum</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a></li>
+              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-primary text-white ms-2" href="/sixxroom.github.io/Fisika-web/#Utama">Sixxroom</a>
+          </li>
         </ul>
-      </li>
-      <li><a href="/Fisika-web/#Utama" class="tbl-biru">Sixxroom</a></li>
-    </ul>
-    </ul>
-
-    <!-- Mobile Menu Toggle -->
-    <span class="mobile-menu-toggle" onclick="toggleSidebar()">☰</span>
-  </nav>
-
-  <!-- Sidebar Mobile -->
-  <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-    <a href="/Fisika-web/#Utama" onclick="closeSidebar()">Utama</a>
-    <a href="/Fisika-web/#Materi" onclick="closeSidebar()">Materi</a>
-    <a href="/Fisika-web/#Anggota" onclick="closeSidebar()">Anggota</a>
-
-    <div class="sidebar-dropdown">
-      <!-- Hapus closeSidebar di sini --><button type="button" class="sidebar-dropdown-toggle">Perhitungan
-        ▼</button>
-      <div class="sidebar-dropdown-menu" id="perhitunganDropdown">
-        <a href="/Fisika-web/perhitungan/kalrlc/">RLC</a>
-        <a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a>
-        <a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a>
-        <a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a>
-        <a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a>
-        <a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a>
       </div>
     </div>
+  </nav>
 
-    <a href="/Fisika-web/#Utama" class="tbl-biru2" onclick="closeSidebar()">Sixxroom</a>
-  </div>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Frekuensi Sudut (ω)</h1>
+        <p class="hero-description">Hitung frekuensi sudut dan visualisasikan gelombang sinus harmonik</p>
+      </div>
+    </div>
+  </section>
 
-
-  <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-    <a href="/Fisika-web/#Utama">Utama</a>
-    <a href="/Fisika-web/#Materi">Materi</a>
-    <a href="/Fisika-web/#Anggota">Anggota</a>
-    <a href="/Fisika-web/#Utama">Sixxroom</a>
-  </div>
-
-
-  <!-- Kalkulator Frekuensi Sudut -->
+  <!-- Calculator Container -->
   <div class="container">
-    <h1>Perhitungan Frekuensi Sudut (ω)</h1>
-    <p>Masukkan Frekuensi (f) dalam Hertz atau Periode (T) dalam detik:</p>
+    <div class="calculator-container">
+      <h2 class="page-title">Perhitungan Frekuensi Sudut (ω)</h2>
+      <p class="page-subtitle">Masukkan Frekuensi (f) dalam Hertz atau Periode (T) dalam detik</p>
 
-    <input type="number" id="f" placeholder="Frekuensi (f) dalam Hertz" step="any">
-    <input type="number" id="T" placeholder="Periode (T) dalam detik" step="any">
-    <button onclick="hitungFrekuensiSudut()">Hitung ω</button>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-activity"></i>
+              Frekuensi (f)
+              <span class="unit">(Hz)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="number" class="form-control" id="f" placeholder="Masukkan frekuensi" step="any">
+              <i class="bi bi-soundwave input-icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-clock"></i>
+              Periode (T)
+              <span class="unit">(detik)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="number" class="form-control" id="T" placeholder="Masukkan periode" step="any">
+              <i class="bi bi-alarm input-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="result" id="result"></div>
-    <div class="result" id="steps" style="font-weight: normal;"></div>
+      <div class="text-center">
+        <button class="btn btn-calculate" onclick="hitungFrekuensiSudut()">
+          <i class="bi bi-calculator me-2"></i>Hitung ω
+        </button>
+      </div>
 
-    <canvas id="chart" height="100"></canvas>
+      <div class="result-section" id="output" style="display: none;">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <h4>Hasil Perhitungan</h4>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="result" id="steps" style="font-weight: normal;"></div>
+      </div>
+
+      <div class="chart-container" id="chartContainer" style="display: none;">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="bi bi-bar-chart-line"></i>
+          </div>
+          <h4>Visualisasi Gelombang Sinus</h4>
+        </div>
+        <canvas id="chart" height="300"></canvas>
+      </div>
+    </div>
   </div>
 
-  <!-- Penjelasan Rumus -->
-  <div class="container">
-    <h1>Frekuensi Sudut (ω)</h1>
-    <p>Frekuensi sudut menyatakan seberapa cepat putaran dalam sistem osilasi atau gerak periodik. Nilai ini diukur
-      dalam radian per detik dan dirumuskan sebagai:</p>
-    <div class="rumus">ω = 2πf atau ω = 2π / T</div>
-  </div>
 
-  <!-- Chart.js CDN -->
+
+  <!-- Footer -->
+  <footer class="bg-light text-center py-4 mt-5">
+    <div class="container">
+      <p class="mb-0 text-muted">&copy; 2025 Fisika Dasar 2A - Kelompok 8. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Script Kalkulasi dan Visualisasi -->
   <script>
     function hitungFrekuensiSudut() {
-      let f = parseFloat(document.getElementById('f').value);
-      let T = parseFloat(document.getElementById('T').value);
-      let resultText = '';
-      let stepText = '';
-      let omega;
+      const button = document.querySelector('.btn-calculate');
+      const originalText = button.innerHTML;
 
-      if (f) {
-        omega = 2 * Math.PI * f;
-        resultText = `Frekuensi Sudut (ω) berdasarkan f: ${omega.toFixed(2)} rad/detik`;
-        stepText = `Langkah Perhitungan:<br>ω = 2πf<br>ω = 2 × ${Math.PI.toFixed(4)} × ${f}<br>ω = ${omega.toFixed(4)} rad/detik`;
-      } else if (T) {
-        omega = 2 * Math.PI / T;
-        resultText = `Frekuensi Sudut (ω) berdasarkan T: ${omega.toFixed(2)} rad/detik`;
-        stepText = `Langkah Perhitungan:<br>ω = 2π / T<br>ω = 2 × ${Math.PI.toFixed(4)} / ${T}<br>ω = ${omega.toFixed(4)} rad/detik`;
-      } else {
-        document.getElementById('result').textContent = 'Harap masukkan salah satu nilai (Frekuensi atau Periode).';
-        document.getElementById('steps').innerHTML = '';
-        return;
-      }
+      // Loading state
+      button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Menghitung...';
+      button.disabled = true;
 
-      document.getElementById('result').textContent = resultText;
-      document.getElementById('steps').innerHTML = stepText;
+      setTimeout(() => {
+        try {
+          let f = parseFloat(document.getElementById('f').value);
+          let T = parseFloat(document.getElementById('T').value);
+          let resultText = '';
+          let stepText = '';
+          let omega;
 
-      // Visualisasi sinyal y(t) = sin(ωt)
-      const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 1); // durasi 1 detik
-      const y = t.map(ti => Math.sin(omega * ti));
+          // Show result containers
+          document.getElementById('output').style.display = 'block';
+          document.getElementById('chartContainer').style.display = 'block';
 
-      const ctx = document.getElementById('chart').getContext('2d');
-      if (window.chartInstance) window.chartInstance.destroy();
-
-      window.chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: t.map(v => v.toFixed(3)),
-          datasets: [{
-            label: 'y(t) = sin(ωt)',
-            data: y,
-            borderColor: '#3A59D1',
-            borderWidth: 2,
-            pointRadius: 0,
-            fill: false
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Waktu (t) dalam detik'
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Amplitudo'
-              },
-              min: -1.2,
-              max: 1.2
-            }
-          },
-          plugins: {
-            legend: { display: true }
+          if (f) {
+            omega = 2 * Math.PI * f;
+            resultText = `Frekuensi Sudut (ω) berdasarkan f: ${omega.toFixed(2)} rad/detik`;
+            stepText = `<div class="mt-3 mb-2"><strong>Langkah Perhitungan:</strong></div>
+                      <div>ω = 2πf</div>
+                      <div>ω = 2 × ${Math.PI.toFixed(4)} × ${f}</div>
+                      <div>ω = ${omega.toFixed(4)} rad/detik</div>`;
+          } else if (T) {
+            omega = 2 * Math.PI / T;
+            resultText = `Frekuensi Sudut (ω) berdasarkan T: ${omega.toFixed(2)} rad/detik`;
+            stepText = `<div class="mt-3 mb-2"><strong>Langkah Perhitungan:</strong></div>
+                      <div>ω = 2π / T</div>
+                      <div>ω = 2 × ${Math.PI.toFixed(4)} / ${T}</div>
+                      <div>ω = ${omega.toFixed(4)} rad/detik</div>`;
+          } else {
+            document.getElementById('result').innerHTML = '<div class="alert alert-warning">Harap masukkan salah satu nilai (Frekuensi atau Periode).</div>';
+            document.getElementById('steps').innerHTML = '';
+            document.getElementById('chartContainer').style.display = 'none';
+            return;
           }
+
+          document.getElementById('result').innerHTML = `<div class="result-item">
+                                                        <span>Frekuensi Sudut (ω):</span>
+                                                        <span class="result-value">${omega.toFixed(4)} rad/detik</span>
+                                                      </div>`;
+          document.getElementById('steps').innerHTML = stepText;
+
+          // Visualisasi sinyal y(t) = sin(ωt)
+          const t = Array.from({ length: 1000 }, (_, i) => i / 1000 * 2); // durasi 2 detik
+          const y = t.map(ti => Math.sin(omega * ti));
+
+          const ctx = document.getElementById('chart').getContext('2d');
+          if (window.chartInstance) window.chartInstance.destroy();
+
+          window.chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: t.map(v => v.toFixed(3)),
+              datasets: [{
+                label: 'y(t) = sin(ωt)',
+                data: y,
+                borderColor: '#3498db',
+                borderWidth: 3,
+                pointRadius: 0,
+                fill: false,
+                tension: 0.1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: {
+                intersect: false,
+                mode: 'index'
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Waktu (t) dalam detik',
+                    font: { size: 14, weight: 'bold' },
+                    color: '#2c3e50'
+                  },
+                  grid: {
+                    color: 'rgba(108, 117, 125, 0.1)',
+                    drawBorder: false
+                  }
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Amplitudo',
+                    font: { size: 14, weight: 'bold' },
+                    color: '#2c3e50'
+                  },
+                  min: -1.2,
+                  max: 1.2,
+                  grid: {
+                    color: 'rgba(108, 117, 125, 0.1)',
+                    drawBorder: false
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                  labels: {
+                    usePointStyle: true,
+                    font: { size: 13, weight: '500' },
+                    color: '#2c3e50',
+                    padding: 20
+                  }
+                },
+                tooltip: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                  titleColor: '#fff',
+                  bodyColor: '#fff',
+                  borderColor: '#3498db',
+                  borderWidth: 1,
+                  cornerRadius: 8,
+                  displayColors: true
+                }
+              },
+              animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
+              }
+            }
+          });
+
+          // Smooth scroll to results
+          setTimeout(() => {
+            document.getElementById('output').scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
+          }, 300);
+
+        } catch (error) {
+          console.error('Calculation error:', error);
+          document.getElementById('result').innerHTML = '<div class="alert alert-danger">Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.</div>';
+        } finally {
+          // Restore button
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+          }, 800);
+        }
+      }, 500);
+    }
+
+    // Initialize event listeners
+    document.addEventListener('DOMContentLoaded', function () {
+      // Add keyboard support
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          hitungFrekuensiSudut();
         }
       });
-    }
-  </script>
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("mySidebar");
-      if (sidebar.style.width === "200px") {
-        sidebar.style.width = "0";
-      } else {
-        sidebar.style.width = "200px";
-      }
-    }
-  </script>
 
-  <script>
-    document.querySelectorAll("#mySidebar a").forEach(link => {
-      link.addEventListener("click", () => closeSidebar());
-    });
-
-    // New: Toggle dropdown menu in sidebar
-    const dropdownToggle = document.querySelector(".sidebar-dropdown-toggle");
-    const dropdownMenu = document.getElementById("perhitunganDropdown");
-
-    dropdownToggle.addEventListener("click", () => {
-      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-    });
-
-    // Prevent closing sidebar when clicking on dropdown links
-    dropdownMenu.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", (e) => {
-        // Optional: close the sidebar if desired
-        // closeSidebar();
+      // Input validation events
+      const inputs = document.querySelectorAll('.form-control');
+      inputs.forEach(input => {
+        input.addEventListener('input', function () {
+          // Clear the other input when this one is filled
+          if (this.id === 'f' && this.value !== '') {
+            document.getElementById('T').value = '';
+          } else if (this.id === 'T' && this.value !== '') {
+            document.getElementById('f').value = '';
+          }
+        });
       });
+
+      // Add reset functionality
+      const resetButton = document.createElement('button');
+      resetButton.className = 'btn btn-outline-secondary mt-3';
+      resetButton.innerHTML = '<i class="bi bi-arrow-counterclockwise me-2"></i>Reset';
+      resetButton.onclick = function () {
+        document.getElementById('f').value = '';
+        document.getElementById('T').value = '';
+        document.getElementById('output').style.display = 'none';
+        document.getElementById('chartContainer').style.display = 'none';
+        if (window.chartInstance) window.chartInstance.destroy();
+      };
+
+      document.querySelector('.btn-calculate').insertAdjacentElement('afterend', resetButton);
     });
   </script>
 </body>

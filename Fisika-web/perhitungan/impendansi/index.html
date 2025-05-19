@@ -2,252 +2,598 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Impedansi RLC Seri</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <script>
-        function toggleSidebarDropdown() {
-            const menu = document.getElementById("perhitunganDropdown");
-            menu.style.display = menu.style.display === "block" ? "none" : "block";
-        }
-
-        function openSidebar() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeSidebar() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
-        select {
-            border: none;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-    </style>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
             margin: 0;
             padding: 0;
         }
 
-        .container {
-            max-width: 700px;
-            margin: 40px auto;
-            background-color: #ffffff;
+        .calculator-container {
+            background: white;
             padding: 30px;
-            border-radius: 10px;
-            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 40px auto;
         }
 
-        h1 {
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-label {
+            font-weight: 600;
             color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-label .unit {
+            color: #6c757d;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .form-control.with-icon {
+            padding-right: 45px;
+        }
+
+        .page-title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #6c757d;
             margin-bottom: 20px;
         }
 
-        p {
-            color: #34495e;
-            margin-bottom: 20px;
-        }
-
-        input {
-            padding: 10px;
-            width: 80%;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #3A59D1;
+        .btn-calculate {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
         }
 
-        button:hover {
-            background-color: #2c3e90;
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
         }
 
-        .result,
-        .steps {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #3A59D1;
+        .result-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
         }
 
-        .steps {
-            font-size: 16px;
-            text-align: left;
-            margin-top: 10px;
-            padding: 15px;
+        .result-item {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(108, 117, 125, 0.1);
+            font-weight: 500;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-header h4 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
         }
 
-        .rumus {
-            background-color: #3A59D1;
+        .formula {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 20px;
-            margin-top: 30px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Custom Navbar Styles */
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Courier', monospace;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar {
+            border-bottom: 1px solid var(--primary-color);
+            padding: 1rem 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: black !important;
+            font-weight: bold;
+            font-size: 1rem;
+            margin: 0 0.5rem;
+        }
+
+        .navbar-nav .nav-link:hover {
+            text-decoration: underline;
+            color: var(--secondary-color) !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .form-control.is-invalid {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+        }
+
+        .form-control.is-valid {
+            border-color: #27ae60;
+            box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calculator-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <nav>
-        <div class="logo"><a href="">Fisika Dasar 2A</a></div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#hero">Fisika Dasar 2A</a>
 
-        <!-- Desktop Navigation Menu -->
-        <ul class="desktop-menu">
-            <li><a href="/Fisika-web/#Utama">Utama</a></li>
-            <li><a href="/Fisika-web/#Materi">Materi</a></li>
-            <li><a href="/Fisika-web/#Anggota">Anggota</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)">Perhitungan ▼</a>
-                <ul class="dropdown-menu">
-                    <li><a href="/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
-                    <li><a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
-                    <li><a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a></li>
-                    <li><a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a></li>
-                    <li><a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a></li>
-                    <li><a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#hero">Utama</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#materi">Materi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#anggota">Anggota</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            Perhitungan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item"
+                                    href="/sixxroom.github.io/Fisika-web/perhitungan/kalrlc">RLC</a></li>
+                            <li><a class="dropdown-item"
+                                    href="/sixxroom.github.io/Fisika-web/perhitungan/frekuensi">Frekuensi Sudut</a></li>
+                            <li><a class="dropdown-item"
+                                    href="/sixxroom.github.io/Fisika-web/perhitungan/impendansi">Impedansi RLC</a></li>
+                            <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusmax">Arus
+                                    Maximum</a></li>
+                            <li><a class="dropdown-item"
+                                    href="/sixxroom.github.io/Fisika-web/perhitungan/arusefektif">Arus Efektif</a></li>
+                            <li><a class="dropdown-item"
+                                    href="/sixxroom.github.io/Fisika-web/perhitungan/vgelomarus">Gelombang Arus AC</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white ms-2" href="#hero">Sixxroom</a>
+                    </li>
                 </ul>
-            </li>
-            <li><a href="/Fisika-web/#Utama" class="tbl-biru">Sixxroom</a></li>
-        </ul>
-        </ul>
-
-        <!-- Mobile Menu Toggle -->
-        <span class="mobile-menu-toggle" onclick="toggleSidebar()">☰</span>
+            </div>
+        </div>
     </nav>
 
-    <!-- Sidebar Mobile -->
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-        <a href="/Fisika-web/#Utama" onclick="closeSidebar()">Utama</a>
-        <a href="/Fisika-web/#Materi" onclick="closeSidebar()">Materi</a>
-        <a href="/Fisika-web/#Anggota" onclick="closeSidebar()">Anggota</a>
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Kalkulator Impedansi RLC Seri</h1>
+                <p class="hero-description">Hitung parameter-parameter impedansi rangkaian RLC seri dengan mudah dan
+                    akurat</p>
+            </div>
+        </div>
+    </section>
 
-        <div class="sidebar-dropdown">
-            <!-- Hapus closeSidebar di sini --><button type="button" class="sidebar-dropdown-toggle">Perhitungan
-                ▼</button>
-            <div class="sidebar-dropdown-menu" id="perhitunganDropdown">
-                <a href="/Fisika-web/perhitungan/kalrlc/">RLC</a>
-                <a href="/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a>
-                <a href="/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a>
-                <a href="/Fisika-web/perhitungan/arusmax/">Arus Maximum</a>
-                <a href="/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a>
-                <a href="/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a>
+    <div class="calculator-container">
+        <h2 class="page-title">Kalkulator Impedansi RLC Seri</h2>
+        <p class="page-subtitle">Masukkan nilai komponen untuk menghitung impedansi total rangkaian RLC seri</p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="bi bi-activity"></i> Resistansi
+                        <span class="unit">(Ω)</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" class="form-control with-icon" id="r" placeholder="Resistansi dalam Ohm"
+                            step="any" value="100">
+                        <i class="bi bi-lightning input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="bi bi-circle"></i> Induktansi
+                        <span class="unit">(H)</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" class="form-control with-icon" id="l" placeholder="Induktansi dalam Henry"
+                            step="any" value="0.1">
+                        <i class="bi bi-arrow-repeat input-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="bi bi-layers"></i> Kapasitansi
+                        <span class="unit">(F)</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" class="form-control with-icon" id="c" placeholder="Kapasitansi dalam Farad"
+                            step="any" value="0.0001">
+                        <i class="bi bi-battery input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="bi bi-soundwave"></i> Frekuensi
+                        <span class="unit">(Hz)</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" class="form-control with-icon" id="f" placeholder="Frekuensi dalam Hz"
+                            step="any" value="50">
+                        <i class="bi bi-soundwave input-icon"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <a href="/Fisika-web/#Utama" class="tbl-biru2" onclick="closeSidebar()">Sixxroom</a>
+        <div class="text-center mt-3">
+            <button class="btn btn-calculate" onclick="hitungImpedansi()">
+                <i class="bi bi-calculator me-2"></i>Hitung Impedansi
+            </button>
+        </div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-outline-secondary me-2" onclick="resetToDefaults()">
+                <i class="bi bi-arrow-clockwise me-1"></i>Reset Default
+            </button>
+            <button class="btn btn-outline-danger" onclick="clearInputs()">
+                <i class="bi bi-trash me-1"></i>Hapus Semua
+            </button>
+        </div>
+
+        <div class="result-section" id="result-section" style="display: none;">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h4>Hasil Perhitungan</h4>
+            </div>
+            <div id="result"></div>
+            <div id="steps"></div>
+        </div>
+
+        <div class="formula mt-4">
+            Z = √[ R² + (ωL - 1/ωC)² ]
+        </div>
     </div>
 
+    <footer class="bg-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0 text-muted">&copy; 2025 Fisika Dasar 2A - Kelompok 8. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" onclick="closeSidebar()">×</a>
-        <a href="/Fisika-web/#Utama">Utama</a>
-        <a href="/Fisika-web/#Materi">Materi</a>
-        <a href="/Fisika-web/#Anggota">Anggota</a>
-        <a href="/Fisika-web/#Utama">Sixxroom</a>
-    </div>
-
-    <div class="container">
-        <h1>Kalkulator Impedansi RLC Seri</h1>
-        <p>Masukkan nilai R (Ohm), L (Henry), C (Farad), dan frekuensi (Hz):</p>
-
-        <input type="number" id="r" placeholder="Resistansi (R) dalam Ohm" step="any">
-        <input type="number" id="l" placeholder="Induktansi (L) dalam Henry" step="any">
-        <input type="number" id="c" placeholder="Kapasitansi (C) dalam Farad" step="any">
-        <input type="number" id="f" placeholder="Frekuensi (f) dalam Hz" step="any">
-
-        <button onclick="hitungImpedansi()">Hitung Impedansi</button>
-
-        <div class="result" id="result"></div>
-        <div class="steps" id="steps"></div>
-        <h1>Frekuensi Sudut (ω)</h1>
-        <p>Impedansi adalah total hambatan dalam rangkaian RLC:</p>
-        <div class="rumus">Rumus: Z = √[ R² + (ωL - 1/ωC)² ]</div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         function hitungImpedansi() {
-            const R = parseFloat(document.getElementById('r').value);
-            const L = parseFloat(document.getElementById('l').value);
-            const C = parseFloat(document.getElementById('c').value);
-            const f = parseFloat(document.getElementById('f').value);
+            const button = document.querySelector('.btn-calculate');
+            const originalText = button.innerHTML;
 
-            const resultEl = document.getElementById('result');
-            const stepsEl = document.getElementById('steps');
+            // Loading state
+            button.innerHTML = '<span class="loading"></span> Menghitung...';
+            button.disabled = true;
 
-            if (isNaN(R) || isNaN(L) || isNaN(C) || isNaN(f) || f === 0 || C === 0) {
-                resultEl.textContent = 'Masukkan semua nilai dengan benar (tidak boleh nol).';
-                stepsEl.textContent = '';
-                return;
-            }
+            // Reset validation states
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.classList.remove('is-invalid', 'is-valid');
+            });
 
-            const omega = 2 * Math.PI * f;
-            const xl = omega * L;
-            const xc = 1 / (omega * C);
-            const z = Math.sqrt(Math.pow(R, 2) + Math.pow((xl - xc), 2));
+            setTimeout(() => {
+                try {
+                    const R = parseFloat(document.getElementById('r').value);
+                    const L = parseFloat(document.getElementById('l').value);
+                    const C = parseFloat(document.getElementById('c').value);
+                    const f = parseFloat(document.getElementById('f').value);
 
-            resultEl.textContent = `Impedansi Total (Z) = ${z.toFixed(2)} Ω`;
+                    // Validation
+                    const inputs = [
+                        { id: 'r', value: R, name: 'Resistansi' },
+                        { id: 'l', value: L, name: 'Induktansi' },
+                        { id: 'c', value: C, name: 'Kapasitansi' },
+                        { id: 'f', value: f, name: 'Frekuensi' }
+                    ];
 
-            stepsEl.innerHTML = `
-        <strong>Langkah Perhitungan:</strong><br>
-        ω = 2πf = ${omega.toFixed(2)} rad/s<br>
-        X<sub>L</sub> = ωL = ${xl.toFixed(2)} Ω<br>
-        X<sub>C</sub> = 1 / (ωC) = ${xc.toFixed(2)} Ω<br>
-        Z = √[R² + (X<sub>L</sub> - X<sub>C</sub>)²]<br>
-        Z = √[${R}² + (${xl.toFixed(2)} - ${xc.toFixed(2)})²]<br>
-        Z = ${z.toFixed(2)} Ω
-      `;
+                    let hasErrors = false;
+                    inputs.forEach(input => {
+                        const element = document.getElementById(input.id);
+                        if (isNaN(input.value) || input.value <= 0) {
+                            element.classList.add('is-invalid');
+                            hasErrors = true;
+                        } else {
+                            element.classList.add('is-valid');
+                        }
+                    });
+
+                    if (hasErrors) {
+                        alert('Mohon periksa kembali nilai input yang Anda masukkan (tidak boleh kosong atau nol)!');
+                        return;
+                    }
+
+                    const omega = 2 * Math.PI * f;
+                    const xl = omega * L;
+                    const xc = 1 / (omega * C);
+                    const z = Math.sqrt(Math.pow(R, 2) + Math.pow((xl - xc), 2));
+                    const phaseDifference = Math.atan((xl - xc) / R) * 180 / Math.PI;
+
+                    const resultSection = document.getElementById('result-section');
+                    const resultEl = document.getElementById('result');
+                    const stepsEl = document.getElementById('steps');
+
+                    resultSection.style.display = 'block';
+
+                    resultEl.innerHTML = `
+            <div class="result-item">
+              <span>Impedansi Total (Z):</span>
+              <span class="result-value">${z.toFixed(3)} Ω</span>
+            </div>
+            <div class="result-item">
+              <span>Sudut Fase:</span>
+              <span class="result-value">${phaseDifference.toFixed(2)}°</span>
+            </div>
+          `;
+
+                    stepsEl.innerHTML = `
+            <div class="result-item">
+              <span>Frekuensi Sudut (ω):</span>
+              <span class="result-value">${omega.toFixed(3)} rad/s</span>
+            </div>
+            <div class="result-item">
+              <span>Reaktansi Induktif (XL):</span>
+              <span class="result-value">${xl.toFixed(3)} Ω</span>
+            </div>
+            <div class="result-item">
+              <span>Reaktansi Kapasitif (XC):</span>
+              <span class="result-value">${xc.toFixed(3)} Ω</span>
+            </div>
+          `;
+
+                    // Scroll to result
+                    resultSection.scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    alert('Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.');
+                    console.error('Calculation error:', error);
+                } finally {
+                    // Restore button
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 1000);
+                }
+            }, 500);
         }
-    </script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById("mySidebar");
-            if (sidebar.style.width === "200px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "200px";
-            }
+
+        // Clear all inputs function
+        function clearInputs() {
+            const inputs = ['r', 'l', 'c', 'f'];
+            inputs.forEach(id => {
+                const input = document.getElementById(id);
+                input.value = '';
+                input.classList.remove('is-valid', 'is-invalid');
+            });
+
+            // Hide results
+            document.getElementById('result-section').style.display = 'none';
         }
-    </script>
 
-    <script>
-        document.querySelectorAll("#mySidebar a").forEach(link => {
-            link.addEventListener("click", () => closeSidebar());
-        });
+        // Reset to default values function
+        function resetToDefaults() {
+            const defaults = {
+                'r': 100,
+                'l': 0.1,
+                'c': 0.0001,
+                'f': 50
+            };
 
-        // New: Toggle dropdown menu in sidebar
-        const dropdownToggle = document.querySelector(".sidebar-dropdown-toggle");
-        const dropdownMenu = document.getElementById("perhitunganDropdown");
+            Object.entries(defaults).forEach(([id, value]) => {
+                const input = document.getElementById(id);
+                input.value = value;
+                input.classList.remove('is-valid', 'is-invalid');
+            });
 
-        dropdownToggle.addEventListener("click", () => {
-            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-        });
+            // Hide results
+            document.getElementById('result-section').style.display = 'none';
+        }
 
-        // Prevent closing sidebar when clicking on dropdown links
-        dropdownMenu.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", (e) => {
-                // Optional: close the sidebar if desired
-                // closeSidebar();
+        document.addEventListener('DOMContentLoaded', function () {
+            // Input validation on focus/blur
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('focus', function () {
+                    this.classList.remove('is-invalid');
+                });
+
+                input.addEventListener('blur', function () {
+                    const value = parseFloat(this.value);
+                    if (isNaN(value) || value <= 0) {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else {
+                        this.classList.add('is-valid');
+                        this.classList.remove('is-invalid');
+                    }
+                });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function (e) {
+                // Ctrl/Cmd + Enter to calculate
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    hitungImpedansi();
+                }
+
+                // Escape to clear results
+                if (e.key === 'Escape') {
+                    const resultSection = document.getElementById('result-section');
+                    if (resultSection.style.display !== 'none') {
+                        resultSection.style.display = 'none';
+                    }
+                }
             });
         });
     </script>

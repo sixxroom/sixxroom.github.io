@@ -165,29 +165,27 @@
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
 
-        /* Custom Navbar Styles */
-        .navbar-brand {
-            font-size: 2rem;
-            font-weight: bold;
-            font-family: 'Courier', monospace;
-            color: var(--primary-color) !important;
-        }
-
+        /* Navigation */
         .navbar {
-            border-bottom: 1px solid var(--primary-color);
-            padding: 1rem 0;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95) !important;
         }
 
-        .navbar-nav .nav-link {
-            color: black !important;
-            font-weight: bold;
-            font-size: 1rem;
-            margin: 0 0.5rem;
+        .navbar-brand {
+            font-weight: 700;
+            color: #3498db !important;
+            font-size: 1.5rem;
         }
 
-        .navbar-nav .nav-link:hover {
-            text-decoration: underline;
-            color: var(--secondary-color) !important;
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #3498db !important;
         }
 
         .hero-section {
@@ -289,13 +287,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#hero">Utama</a>
+                        <a class="nav-link" href="../../#hero">Utama</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#materi">Materi</a>
+                        <a class="nav-link" href="../../#materi">Materi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#anggota">Anggota</a>
+                        <a class="nav-link" href="../../#anggota">Anggota</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
@@ -303,29 +301,21 @@
                             Perhitungan
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item"
-                                    href="/sixxroom.github.io/Fisika-web/perhitungan/kalrlc">RLC</a></li>
-                            <li><a class="dropdown-item"
-                                    href="/sixxroom.github.io/Fisika-web/perhitungan/frekuensi">Frekuensi Sudut</a></li>
-                            <li><a class="dropdown-item"
-                                    href="/sixxroom.github.io/Fisika-web/perhitungan/impendansi">Impedansi RLC</a></li>
-                            <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusmax">Arus
-                                    Maximum</a></li>
-                            <li><a class="dropdown-item"
-                                    href="/sixxroom.github.io/Fisika-web/perhitungan/arusefektif">Arus Efektif</a></li>
-                            <li><a class="dropdown-item"
-                                    href="/sixxroom.github.io/Fisika-web/perhitungan/vgelomarus">Gelombang Arus AC</a>
-                            </li>
+                            <li><a class="dropdown-item" href="/perhitungan/kalrlc/">RLC</a></li>
+                            <li><a class="dropdown-item" href="/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
+                            <li><a class="dropdown-item" href="/perhitungan/impendansi/">Impedansi RLC</a></li>
+                            <li><a class="dropdown-item" href="/perhitungan/arusmax/">Arus Maximum</a></li>
+                            <li><a class="dropdown-item" href="/perhitungan/arusefektif/">Arus Efektif</a></li>
+                            <li><a class="dropdown-item" href="/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white ms-2" href="#hero">Sixxroom</a>
+                        <a class="nav-link btn btn-custom-blue text-white ms-2" href="#hero">Sixxroom</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <section class="hero-section">
         <div class="container">
             <div class="hero-content">

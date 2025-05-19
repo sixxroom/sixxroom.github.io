@@ -358,7 +358,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Fisika Dasar 2A</a>
+      <a class="navbar-brand" href="#hero">Fisika Dasar 2A</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -367,13 +367,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#hero">Utama</a>
+            <a class="nav-link" href="../../#hero">Utama</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#materi">Materi</a>
+            <a class="nav-link" href="../../#materi">Materi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/sixxroom.github.io/Fisika-web/#anggota">Anggota</a>
+            <a class="nav-link" href="../../#anggota">Anggota</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
@@ -381,16 +381,16 @@
               Perhitungan
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/kalrlc/">RLC</a></li>
-              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
-              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/impendansi/">Impedansi RLC</a></li>
-              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusmax/">Arus Maximum</a></li>
-              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/arusefektif/">Arus Efektif</a></li>
-              <li><a class="dropdown-item" href="/sixxroom.github.io/Fisika-web/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+              <li><a class="dropdown-item" href="/perhitungan/kalrlc/">RLC</a></li>
+              <li><a class="dropdown-item" href="/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
+              <li><a class="dropdown-item" href="/perhitungan/impendansi/">Impedansi RLC</a></li>
+              <li><a class="dropdown-item" href="/perhitungan/arusmax/">Arus Maximum</a></li>
+              <li><a class="dropdown-item" href="/perhitungan/arusefektif/">Arus Efektif</a></li>
+              <li><a class="dropdown-item" href="/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-primary text-white ms-2 px-3" href="/sixxroom.github.io/Fisika-web/#hero">Sixxroom</a>
+            <a class="nav-link btn btn-custom-blue text-white ms-2" href="#hero">Sixxroom</a>
           </li>
         </ul>
       </div>
@@ -402,7 +402,8 @@
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">Visualisasi Gelombang Arus AC</h1>
-        <p class="hero-description">Simulasikan dan visualisasikan gelombang arus AC dengan memasukkan parameter-parameter dasar</p>
+        <p class="hero-description">Simulasikan dan visualisasikan gelombang arus AC dengan memasukkan
+          parameter-parameter dasar</p>
       </div>
     </div>
   </section>
@@ -411,7 +412,8 @@
   <div class="container">
     <div class="calculator-container">
       <h2 class="page-title">Parameter Input</h2>
-      <p class="page-subtitle">Masukkan nilai arus maksimum, frekuensi, dan fase awal untuk memvisualisasikan bentuk gelombang arus</p>
+      <p class="page-subtitle">Masukkan nilai arus maksimum, frekuensi, dan fase awal untuk memvisualisasikan bentuk
+        gelombang arus</p>
 
       <div class="row">
         <div class="col-md-4">
@@ -501,20 +503,6 @@
       </div>
 
       <div class="formula-display mt-4">I(t) = Imax × sin(ωt - φ)</div>
-
-      <div class="mt-4">
-        <div class="card border-0 bg-light">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Keterangan Rumus:</h5>
-            <ul class="list-unstyled">
-              <li class="mb-2"><strong>I(t)</strong> = arus pada waktu t (Ampere)</li>
-              <li class="mb-2"><strong>Imax</strong> = nilai maksimum amplitudo arus (Ampere)</li>
-              <li class="mb-2"><strong>ω</strong> = frekuensi sudut = 2πf (rad/s)</li>
-              <li class="mb-2"><strong>φ</strong> = pergeseran fase awal (radian)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -582,11 +570,11 @@
 
           // Calculate
           const omega = 2 * Math.PI * freq;
-          
+
           // Display results
           document.getElementById('result-omega').textContent = omega.toFixed(2) + " rad/s";
           document.getElementById('result-phi').textContent = phi.toFixed(2) + " rad";
-          document.getElementById('calculation-steps').innerHTML = 
+          document.getElementById('calculation-steps').innerHTML =
             `Langkah perhitungan:<br>
              ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s<br>
              φ = ${phi} rad`;
@@ -761,14 +749,14 @@
       document.getElementById('imax').value = '10';
       document.getElementById('freq').value = '50';
       document.getElementById('phi').value = '0';
-      
+
       document.querySelectorAll('.form-control').forEach(input => {
         input.classList.remove('is-invalid', 'is-valid');
       });
-      
+
       document.getElementById('result-container').style.display = 'none';
       document.getElementById('chart-container').style.display = 'none';
-      
+
       if (window.chartInstance) {
         window.chartInstance.destroy();
         window.chartInstance = null;
@@ -781,7 +769,7 @@
         alert('Tidak ada grafik untuk diekspor. Lakukan perhitungan terlebih dahulu.');
         return;
       }
-      
+
       const canvas = document.getElementById('chart');
       const image = canvas.toDataURL('image/png');
       const link = document.createElement('a');
@@ -791,9 +779,9 @@
       link.click();
       document.body.removeChild(link);
     }
-    
+
     // Add control buttons after document is loaded
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Add reset and export buttons
       const calculateButton = document.querySelector('.btn-calculate');
       const controlDiv = document.createElement('div');

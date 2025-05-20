@@ -7,8 +7,14 @@
   <title>Kalkulator Rangkaian RLC AC</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-
   <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --success: #27ae60;
+      --danger: #e74c3c;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #f8f9fa;
@@ -26,7 +32,6 @@
       margin: 40px auto;
     }
 
-    /* Enhanced Form Controls */
     .form-group {
       margin-bottom: 24px;
       position: relative;
@@ -62,24 +67,21 @@
     }
 
     .form-control:focus {
-      border-color: #3498db;
+      border-color: var(--primary);
       box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
       outline: none;
       background-color: #fff;
       transform: translateY(-1px);
     }
 
-    .form-control:hover:not(:focus) {
-      border-color: #bdc3c7;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    .form-control.is-invalid {
+      border-color: var(--danger);
     }
 
-    .form-control::placeholder {
-      color: #95a5a6;
-      font-weight: 400;
+    .form-control.is-valid {
+      border-color: var(--success);
     }
 
-    /* Input Icons */
     .input-wrapper {
       position: relative;
     }
@@ -94,13 +96,8 @@
       pointer-events: none;
     }
 
-    .form-control.with-icon {
-      padding-right: 45px;
-    }
-
-    /* Button Styling */
     .btn-calculate {
-      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
       color: white;
       border: none;
       padding: 14px 32px;
@@ -112,6 +109,8 @@
       box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
       position: relative;
       overflow: hidden;
+      display: block;
+      margin: 20px auto;
     }
 
     .btn-calculate:hover {
@@ -119,27 +118,23 @@
       box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
     }
 
-    .btn-calculate:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    .btn-outline-danger {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: transparent;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
 
-    .btn-calculate::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
+    .btn-outline-danger:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: white;
+      transform: translateY(-1px);
     }
 
-    .btn-calculate:hover::before {
-      left: 100%;
-    }
-
-    /* Result Section */
     .result-section {
       margin-top: 32px;
       padding: 24px;
@@ -160,18 +155,37 @@
       align-items: center;
     }
 
-    .result-item:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
     .result-value {
       font-weight: 700;
-      color: #3498db;
+      color: var(--primary);
       font-size: 16px;
     }
 
-    /* Chart Container */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h4 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+
     .chart-container {
       margin-top: 32px;
       padding: 24px;
@@ -181,12 +195,20 @@
       border: 1px solid #e9ecef;
     }
 
-    /* Page Headers */
+    /* Ukuran tetap untuk chart - FIXED BUG */
+    .chart-wrapper {
+      position: relative;
+      height: 400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
     .page-title {
       color: #2c3e50;
       font-weight: 700;
       margin-bottom: 8px;
       font-size: 28px;
+      text-align: center;
     }
 
     .page-subtitle {
@@ -194,26 +216,15 @@
       margin-bottom: 32px;
       font-size: 16px;
       line-height: 1.6;
+      text-align: center;
     }
 
-    /* Hero Section */
     .hero-section {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       padding: 80px 0;
       margin-bottom: 40px;
       position: relative;
       overflow: hidden;
-    }
-
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-      opacity: 0.3;
     }
 
     .hero-content {
@@ -240,7 +251,6 @@
       line-height: 1.6;
     }
 
-    /* Navigation */
     .navbar {
       box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(10px);
@@ -249,7 +259,7 @@
 
     .navbar-brand {
       font-weight: 700;
-      color: #3498db !important;
+      color: var(--primary) !important;
       font-size: 1.5rem;
     }
 
@@ -260,35 +270,9 @@
     }
 
     .nav-link:hover {
-      color: #3498db !important;
+      color: var(--primary) !important;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .calculator-container {
-        padding: 24px;
-        margin: 20px auto;
-      }
-
-      .hero-title {
-        font-size: 2rem;
-      }
-
-      .hero-description {
-        font-size: 1rem;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .btn-calculate {
-        width: 100%;
-        padding: 16px;
-      }
-    }
-
-    /* Loading Animation */
     .loading {
       display: inline-block;
       width: 20px;
@@ -305,41 +289,24 @@
       }
     }
 
-    /* Form validation states */
-    .form-control.is-invalid {
-      border-color: #e74c3c;
-      box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
-    }
+    @media screen and (max-width: 768px) {
+      .calculator-container {
+        padding: 24px;
+        margin: 20px auto;
+      }
 
-    .form-control.is-valid {
-      border-color: #27ae60;
-      box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1);
-    }
+      .hero-title {
+        font-size: 2rem;
+      }
 
-    /* Section headers */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
+      .hero-description {
+        font-size: 1rem;
+      }
 
-    .section-header h4 {
-      margin: 0;
-      color: #2c3e50;
-      font-weight: 600;
-    }
-
-    .section-icon {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 16px;
+      .btn-calculate {
+        width: 100%;
+        padding: 16px;
+      }
     }
   </style>
 </head>
@@ -380,7 +347,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-custom-blue text-white ms-2" href="#hero">Sixxroom</a>
+            <a class="nav-link btn btn-custom-blue text-white ms-2" href="../../#hero">Sixxroom</a>
           </li>
         </ul>
       </div>
@@ -408,81 +375,69 @@
         <div class="col-md-6">
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-activity"></i>
-              Frekuensi
+              <i class="bi bi-activity"></i>Frekuensi
               <span class="unit">(Hz)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="f" value="50" step="0.01"
-                placeholder="Masukkan frekuensi">
-              <i class="bi bi-soundwave input-icon"></i>
+              <input type="number" class="form-control" id="f" value="50" step="0.01" placeholder="Masukkan frekuensi">
+              <i class="bi bi-activity input-icon"></i>
             </div>
           </div>
-
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-box"></i>
-              Resistor R
+              <i class="bi bi-box"></i>Resistor R
               <span class="unit">(Ω)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="R" value="100" step="0.01"
+              <input type="number" class="form-control" id="R" value="100" step="0.01"
                 placeholder="Masukkan nilai resistor">
-              <i class="bi bi-lightning input-icon"></i>
+              <i class="bi bi-box input-icon"></i>
             </div>
           </div>
-
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-circle"></i>
-              Induktor L
+              <i class="bi bi-circle"></i>Induktor L
               <span class="unit">(H)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="L" value="0.1" step="0.001"
+              <input type="number" class="form-control" id="L" value="0.1" step="0.001"
                 placeholder="Masukkan nilai induktor">
-              <i class="bi bi-arrow-repeat input-icon"></i>
+              <i class="bi bi-circle input-icon"></i>
             </div>
           </div>
         </div>
-
         <div class="col-md-6">
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-layers"></i>
-              Kapasitor C
+              <i class="bi bi-layers"></i>Kapasitor C
               <span class="unit">(F)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="C" value="0.0001" step="0.00001"
+              <input type="number" class="form-control" id="C" value="0.0001" step="0.00001"
                 placeholder="Masukkan nilai kapasitor">
-              <i class="bi bi-battery input-icon"></i>
+              <i class="bi bi-layers input-icon"></i>
             </div>
           </div>
-
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-power"></i>
-              Tegangan Maksimum Vmax
+              <i class="bi bi-power"></i>Tegangan Maksimum Vmax
               <span class="unit">(V)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="Vmax" value="220" step="0.01"
+              <input type="number" class="form-control" id="Vmax" value="220" step="0.01"
                 placeholder="Masukkan tegangan maksimum">
-              <i class="bi bi-lightning-charge input-icon"></i>
+              <i class="bi bi-power input-icon"></i>
             </div>
           </div>
-
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-compass"></i>
-              Sudut Fase φ
+              <i class="bi bi-compass"></i>Sudut Fase φ
               <span class="unit">(derajat)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="phi" value="30" step="0.01"
+              <input type="number" class="form-control" id="phi" value="30" step="0.01"
                 placeholder="Masukkan sudut fase">
-              <i class="bi bi-arrow-clockwise input-icon"></i>
+              <i class="bi bi-compass input-icon"></i>
             </div>
           </div>
         </div>
@@ -491,6 +446,12 @@
       <div class="text-center">
         <button class="btn btn-calculate" onclick="hitung()">
           <i class="bi bi-calculator me-2"></i>Hitung Sekarang
+        </button>
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-danger me-2" onclick="clearInputs()">
+          <i class="bi bi-trash me-1"></i>Hapus
         </button>
       </div>
 
@@ -511,7 +472,9 @@
           </div>
           <h4>Visualisasi Gelombang Arus AC</h4>
         </div>
-        <canvas id="chart" height="300"></canvas>
+        <div class="chart-wrapper">
+          <canvas id="chart"></canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -523,21 +486,19 @@
     </div>
   </footer>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
+    let chartInstance;
+
     function hitung() {
       const button = document.querySelector('.btn-calculate');
       const originalText = button.innerHTML;
-
-      // Loading state
       button.innerHTML = '<span class="loading"></span> Menghitung...';
       button.disabled = true;
 
-      // Reset validation states
+      // Reset validation
       document.querySelectorAll('.form-control').forEach(input => {
         input.classList.remove('is-invalid', 'is-valid');
       });
@@ -552,19 +513,13 @@
           const phi_deg = parseFloat(document.getElementById('phi').value);
 
           // Validation
-          const inputs = [
-            { id: 'f', value: f, name: 'Frekuensi' },
-            { id: 'R', value: R, name: 'Resistor' },
-            { id: 'L', value: L, name: 'Induktor' },
-            { id: 'C', value: C, name: 'Kapasitor' },
-            { id: 'Vmax', value: Vmax, name: 'Tegangan Maksimum' },
-            { id: 'phi', value: phi_deg, name: 'Sudut Fase' }
-          ];
-
+          const inputs = [f, R, L, C, Vmax, phi_deg];
+          const inputElements = ['f', 'R', 'L', 'C', 'Vmax', 'phi'];
           let hasErrors = false;
-          inputs.forEach(input => {
-            const element = document.getElementById(input.id);
-            if (isNaN(input.value) || input.value < 0) {
+
+          inputs.forEach((value, index) => {
+            const element = document.getElementById(inputElements[index]);
+            if (isNaN(value) || value < 0) {
               element.classList.add('is-invalid');
               hasErrors = true;
             } else {
@@ -595,71 +550,40 @@
           document.getElementById('results-content').innerHTML = `
             <div class="row">
               <div class="col-md-6">
-                <div class="result-item">
-                  <span>Frekuensi Sudut (ω):</span>
-                  <span class="result-value">${omega.toFixed(3)} rad/s</span>
-                </div>
-                <div class="result-item">
-                  <span>Reaktansi Induktif (XL):</span>
-                  <span class="result-value">${XL.toFixed(3)} Ω</span>
-                </div>
-                <div class="result-item">
-                  <span>Reaktansi Kapasitif (XC):</span>
-                  <span class="result-value">${XC.toFixed(3)} Ω</span>
-                </div>
-                <div class="result-item">
-                  <span>Impedansi (Z):</span>
-                  <span class="result-value">${Z.toFixed(3)} Ω</span>
-                </div>
-                <div class="result-item">
-                  <span>Sudut Fase Rangkaian:</span>
-                  <span class="result-value">${phaseDifference.toFixed(2)}°</span>
-                </div>
+                <div class="result-item"><span>Frekuensi Sudut (ω):</span><span class="result-value">${omega.toFixed(3)} rad/s</span></div>
+                <div class="result-item"><span>Reaktansi Induktif (XL):</span><span class="result-value">${XL.toFixed(3)} Ω</span></div>
+                <div class="result-item"><span>Reaktansi Kapasitif (XC):</span><span class="result-value">${XC.toFixed(3)} Ω</span></div>
+                <div class="result-item"><span>Impedansi (Z):</span><span class="result-value">${Z.toFixed(3)} Ω</span></div>
+                <div class="result-item"><span>Sudut Fase Rangkaian:</span><span class="result-value">${phaseDifference.toFixed(2)}°</span></div>
               </div>
               <div class="col-md-6">
-                <div class="result-item">
-                  <span>Arus Maksimum (Imax):</span>
-                  <span class="result-value">${Imax.toFixed(3)} A</span>
-                </div>
-                <div class="result-item">
-                  <span>Arus Efektif (Irms):</span>
-                  <span class="result-value">${Irms.toFixed(3)} A</span>
-                </div>
-                <div class="result-item">
-                  <span>Daya Aktif (P):</span>
-                  <span class="result-value">${P.toFixed(3)} W</span>
-                </div>
-                <div class="result-item">
-                  <span>Daya Reaktif (Q):</span>
-                  <span class="result-value">${Q.toFixed(3)} VAR</span>
-                </div>
-                <div class="result-item">
-                  <span>Daya Semu (S):</span>
-                  <span class="result-value">${S.toFixed(3)} VA</span>
-                </div>
+                <div class="result-item"><span>Arus Maksimum (Imax):</span><span class="result-value">${Imax.toFixed(3)} A</span></div>
+                <div class="result-item"><span>Arus Efektif (Irms):</span><span class="result-value">${Irms.toFixed(3)} A</span></div>
+                <div class="result-item"><span>Daya Aktif (P):</span><span class="result-value">${P.toFixed(3)} W</span></div>
+                <div class="result-item"><span>Daya Reaktif (Q):</span><span class="result-value">${Q.toFixed(3)} VAR</span></div>
+                <div class="result-item"><span>Daya Semu (S):</span><span class="result-value">${S.toFixed(3)} VA</span></div>
               </div>
             </div>
           `;
 
-          // Show results and chart container
+          // Show results
           document.getElementById('output').style.display = 'block';
           document.getElementById('chartContainer').style.display = 'block';
 
-          // Generate waveform data
-          const points = 1000;
-          const timeEnd = 2 / f; // 2 periods
+          // Generate chart with fixed size
+          const points = 500;
+          const timeEnd = 2 / f;
           const t = Array.from({ length: points }, (_, i) => i * timeEnd / (points - 1));
           const I_t = t.map(ti => Imax * Math.sin(omega * ti - phi));
           const V_t = t.map(ti => Vmax * Math.sin(omega * ti));
 
-          // Create chart
-          const ctx = document.getElementById('chart').getContext('2d');
-          if (window.chartInstance) window.chartInstance.destroy();
+          if (chartInstance) chartInstance.destroy();
 
-          window.chartInstance = new Chart(ctx, {
+          const ctx = document.getElementById('chart').getContext('2d');
+          chartInstance = new Chart(ctx, {
             type: 'line',
             data: {
-              labels: t.map(v => (v * 1000).toFixed(1)), // Convert to milliseconds
+              labels: t.map(v => (v * 1000).toFixed(1)),
               datasets: [
                 {
                   label: 'Arus I(t) [A]',
@@ -701,10 +625,6 @@
                   grid: {
                     color: 'rgba(108, 117, 125, 0.1)',
                     drawBorder: false
-                  },
-                  ticks: {
-                    color: '#6c757d',
-                    font: { size: 12 }
                   }
                 },
                 y: {
@@ -717,10 +637,6 @@
                   grid: {
                     color: 'rgba(108, 117, 125, 0.1)',
                     drawBorder: false
-                  },
-                  ticks: {
-                    color: '#6c757d',
-                    font: { size: 12 }
                   }
                 }
               },
@@ -742,12 +658,7 @@
                   borderColor: '#3498db',
                   borderWidth: 1,
                   cornerRadius: 8,
-                  displayColors: true,
-                  callbacks: {
-                    label: function (context) {
-                      return `${context.dataset.label}: ${context.formattedValue}`;
-                    }
-                  }
+                  displayColors: true
                 }
               },
               animation: {
@@ -757,7 +668,6 @@
             }
           });
 
-          // Smooth scroll to results
           setTimeout(() => {
             document.getElementById('output').scrollIntoView({
               behavior: 'smooth',
@@ -769,7 +679,6 @@
           alert('Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.');
           console.error('Calculation error:', error);
         } finally {
-          // Restore button
           setTimeout(() => {
             button.innerHTML = originalText;
             button.disabled = false;
@@ -778,35 +687,39 @@
       }, 500);
     }
 
-    // Initialize page
+    function clearInputs() {
+      ['f', 'R', 'L', 'C', 'Vmax', 'phi'].forEach(id => {
+        const input = document.getElementById(id);
+        input.value = '';
+        input.classList.remove('is-valid', 'is-invalid');
+        localStorage.removeItem(`rlc_${id}`);
+      });
+      document.getElementById('output').style.display = 'none';
+      document.getElementById('chartContainer').style.display = 'none';
+      if (chartInstance) chartInstance.destroy();
+    }
+
+    function resetToDefaults() {
+      const defaults = { f: 50, R: 100, L: 0.1, C: 0.0001, Vmax: 220, phi: 30 };
+      Object.entries(defaults).forEach(([id, value]) => {
+        const input = document.getElementById(id);
+        input.value = value;
+        input.classList.remove('is-valid', 'is-invalid');
+        localStorage.setItem(`rlc_${id}`, value);
+      });
+    }
+
+    // Initialize
     document.addEventListener('DOMContentLoaded', function () {
-      // Fade in animation
-      document.body.style.opacity = '0';
-      document.body.style.transition = 'opacity 0.6s ease';
+      // Load saved values
+      ['f', 'R', 'L', 'C', 'Vmax', 'phi'].forEach(id => {
+        const input = document.getElementById(id);
+        const savedValue = localStorage.getItem(`rlc_${id}`);
+        if (savedValue !== null) input.value = savedValue;
 
-      setTimeout(() => {
-        document.body.style.opacity = '1';
-      }, 100);
-
-      // Input validation on focus/blur
-      document.querySelectorAll('.form-control').forEach(input => {
-        input.addEventListener('focus', function () {
-          this.classList.remove('is-invalid');
-        });
-
-        input.addEventListener('blur', function () {
-          const value = parseFloat(this.value);
-          if (isNaN(value) || value < 0) {
-            this.classList.add('is-invalid');
-            this.classList.remove('is-valid');
-          } else {
-            this.classList.add('is-valid');
-            this.classList.remove('is-invalid');
-          }
-        });
-
+        // Save on change and validate
         input.addEventListener('input', function () {
-          // Real-time validation
+          localStorage.setItem(`rlc_${id}`, this.value);
           const value = parseFloat(this.value);
           if (this.value && !isNaN(value) && value >= 0) {
             this.classList.remove('is-invalid');
@@ -820,209 +733,19 @@
         });
       });
 
-      // Enhanced dropdown behavior for mobile
-      const dropdownLinks = document.querySelectorAll('.dropdown-item');
-      dropdownLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-          // Close mobile menu if open
-          const navbarCollapse = document.querySelector('.navbar-collapse');
-          if (navbarCollapse.classList.contains('show')) {
-            const navbarToggler = document.querySelector('.navbar-toggler');
-            navbarToggler.click();
-          }
-        });
-      });
-
-      // Auto-save to localStorage
-      const inputs = ['f', 'R', 'L', 'C', 'Vmax', 'phi'];
-      inputs.forEach(id => {
-        const input = document.getElementById(id);
-
-        // Load saved value
-        const savedValue = localStorage.getItem(`rlc_${id}`);
-        if (savedValue !== null) {
-          input.value = savedValue;
-        }
-
-        // Save on change
-        input.addEventListener('input', function () {
-          localStorage.setItem(`rlc_${id}`, this.value);
-        });
-      });
-
-      // Add keyboard shortcuts
+      // Keyboard shortcuts
       document.addEventListener('keydown', function (e) {
-        // Ctrl/Cmd + Enter to calculate
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
           e.preventDefault();
           hitung();
         }
-
-        // Escape to clear results
         if (e.key === 'Escape') {
           const output = document.getElementById('output');
-          const chartContainer = document.getElementById('chartContainer');
           if (output.style.display !== 'none') {
             output.style.display = 'none';
-            chartContainer.style.display = 'none';
+            document.getElementById('chartContainer').style.display = 'none';
           }
         }
-      });
-
-      // Add tooltips
-      const tooltips = {
-        'f': 'Frekuensi sinyal AC dalam Hertz (Hz)',
-        'R': 'Nilai resistansi dalam Ohm (Ω)',
-        'L': 'Nilai induktansi dalam Henry (H)',
-        'C': 'Nilai kapasitansi dalam Farad (F)',
-        'Vmax': 'Tegangan maksimum dalam Volt (V)',
-        'phi': 'Sudut fase awal dalam derajat (°)'
-      };
-
-      Object.entries(tooltips).forEach(([id, tooltip]) => {
-        const input = document.getElementById(id);
-        input.title = tooltip;
-        input.setAttribute('data-bs-toggle', 'tooltip');
-        input.setAttribute('data-bs-placement', 'top');
-      });
-
-      // Initialize Bootstrap tooltips
-      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-      });
-    });
-
-    // Clear all inputs function
-    function clearInputs() {
-      const inputs = ['f', 'R', 'L', 'C', 'Vmax', 'phi'];
-      inputs.forEach(id => {
-        const input = document.getElementById(id);
-        input.value = '';
-        input.classList.remove('is-valid', 'is-invalid');
-        localStorage.removeItem(`rlc_${id}`);
-      });
-
-      // Hide results
-      document.getElementById('output').style.display = 'none';
-      document.getElementById('chartContainer').style.display = 'none';
-
-      // Destroy chart
-      if (window.chartInstance) {
-        window.chartInstance.destroy();
-        window.chartInstance = null;
-      }
-    }
-
-    // Reset to default values function
-    function resetToDefaults() {
-      const defaults = {
-        'f': 50,
-        'R': 100,
-        'L': 0.1,
-        'C': 0.0001,
-        'Vmax': 220,
-        'phi': 30
-      };
-
-      Object.entries(defaults).forEach(([id, value]) => {
-        const input = document.getElementById(id);
-        input.value = value;
-        input.classList.remove('is-valid', 'is-invalid');
-        localStorage.setItem(`rlc_${id}`, value);
-      });
-    }
-
-    // Export results function
-    function exportResults() {
-      const resultsDiv = document.getElementById('results-content');
-      if (resultsDiv.innerHTML === '') {
-        alert('Tidak ada hasil untuk diekspor. Lakukan perhitungan terlebih dahulu.');
-        return;
-      }
-
-      // Get input values
-      const inputs = {
-        frequency: document.getElementById('f').value,
-        resistance: document.getElementById('R').value,
-        inductance: document.getElementById('L').value,
-        capacitance: document.getElementById('C').value,
-        maxVoltage: document.getElementById('Vmax').value,
-        phaseAngle: document.getElementById('phi').value
-      };
-
-      // Extract results from DOM
-      const resultItems = document.querySelectorAll('.result-item');
-      const results = {};
-      resultItems.forEach(item => {
-        const label = item.querySelector('span:first-child').textContent.replace(':', '');
-        const value = item.querySelector('.result-value').textContent;
-        results[label] = value;
-      });
-
-      // Create export data
-      const exportData = {
-        timestamp: new Date().toISOString(),
-        inputs: inputs,
-        results: results
-      };
-
-      // Download as JSON
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `rlc_calculation_${new Date().toISOString().slice(0, 10)}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // Add control buttons
-    document.addEventListener('DOMContentLoaded', function () {
-      // Add control buttons after the calculate button
-      const calculateButton = document.querySelector('.btn-calculate');
-      const controlDiv = document.createElement('div');
-      controlDiv.className = 'text-center mt-3';
-      controlDiv.innerHTML = `
-        <button class="btn btn-outline-secondary me-2" onclick="resetToDefaults()">
-          <i class="bi bi-arrow-clockwise me-1"></i>Reset Default
-        </button>
-        <button class="btn btn-outline-danger me-2" onclick="clearInputs()">
-          <i class="bi bi-trash me-1"></i>Hapus Semua
-        </button>
-        <button class="btn btn-outline-success" onclick="exportResults()">
-          <i class="bi bi-download me-1"></i>Export Hasil
-        </button>
-      `;
-      calculateButton.parentNode.insertBefore(controlDiv, calculateButton.nextSibling);
-    });
-
-    // Performance optimization: Debounce real-time calculation
-    let calculationTimeout;
-    function debouncedCalculation() {
-      clearTimeout(calculationTimeout);
-      calculationTimeout = setTimeout(() => {
-        // Auto-calculate if all fields are valid
-        const inputs = document.querySelectorAll('.form-control');
-        const allValid = Array.from(inputs).every(input => {
-          const value = parseFloat(input.value);
-          return !isNaN(value) && value >= 0;
-        });
-
-        if (allValid) {
-          // Optional: Uncomment to enable auto-calculation
-          // hitung();
-        }
-      }, 1000);
-    }
-
-    // Add real-time calculation option
-    document.addEventListener('DOMContentLoaded', function () {
-      const inputs = document.querySelectorAll('.form-control');
-      inputs.forEach(input => {
-        input.addEventListener('input', debouncedCalculation);
       });
     });
   </script>

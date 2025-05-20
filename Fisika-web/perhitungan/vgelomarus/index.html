@@ -7,13 +7,46 @@
   <title>Visualisasi Gelombang Arus AC</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #f8f9fa;
-      padding: 0;
-      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 80px 0;
+      color: white;
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
     }
 
     .calculator-container {
@@ -26,7 +59,6 @@
       margin: 40px auto;
     }
 
-    /* Enhanced Form Controls */
     .form-group {
       margin-bottom: 24px;
       position: relative;
@@ -69,17 +101,6 @@
       transform: translateY(-1px);
     }
 
-    .form-control:hover:not(:focus) {
-      border-color: #bdc3c7;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .form-control::placeholder {
-      color: #95a5a6;
-      font-weight: 400;
-    }
-
-    /* Input Icons */
     .input-wrapper {
       position: relative;
     }
@@ -94,11 +115,6 @@
       pointer-events: none;
     }
 
-    .form-control.with-icon {
-      padding-right: 45px;
-    }
-
-    /* Button Styling */
     .btn-calculate {
       background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
       color: white;
@@ -119,27 +135,32 @@
       box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
     }
 
-    .btn-calculate:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
-    .btn-calculate::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
+    .section-header h4,
+    .section-header h5 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
     }
 
-    .btn-calculate:hover::before {
-      left: 100%;
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
     }
 
-    /* Result Section */
     .result-section {
       margin-top: 32px;
       padding: 24px;
@@ -150,19 +171,13 @@
     }
 
     .result-item {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 12px;
       padding: 12px 0;
       border-bottom: 1px solid rgba(108, 117, 125, 0.1);
       font-weight: 500;
       color: #2c3e50;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .result-item:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
     }
 
     .result-value {
@@ -171,7 +186,6 @@
       font-size: 16px;
     }
 
-    /* Chart Container */
     .chart-container {
       margin-top: 32px;
       padding: 24px;
@@ -181,66 +195,25 @@
       border: 1px solid #e9ecef;
     }
 
-    /* Page Headers */
-    .page-title {
-      color: #2c3e50;
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 28px;
-    }
-
-    .page-subtitle {
-      color: #6c757d;
-      margin-bottom: 32px;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    /* Hero Section */
-    .hero-section {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 80px 0;
-      margin-bottom: 40px;
+    /* Ukuran tetap untuk chart */
+    .chart-wrapper {
       position: relative;
-      overflow: hidden;
+      height: 400px;
+      width: 100%;
+      margin: 0 auto;
     }
 
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-      opacity: 0.3;
-    }
-
-    .hero-content {
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-title {
-      font-size: 3rem;
-      font-weight: 700;
+    .formula-display {
+      background: #3498db;
       color: white;
-      margin-bottom: 16px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      margin-top: 20px;
     }
 
-    .hero-description {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 0;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-
-    /* Navigation */
     .navbar {
       box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(10px);
@@ -263,47 +236,7 @@
       color: #3498db !important;
     }
 
-    /* Section headers */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .section-header h4 {
-      margin: 0;
-      color: #2c3e50;
-      font-weight: 600;
-    }
-
-    .section-icon {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 16px;
-    }
-
-    /* Formula display */
-    .formula-display {
-      background-color: #3498db;
-      color: #ffffff;
-      font-weight: bold;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 24px;
-      border-radius: 8px;
-      margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       .calculator-container {
         padding: 24px;
         margin: 20px auto;
@@ -317,39 +250,10 @@
         font-size: 1rem;
       }
 
-      .form-group {
-        margin-bottom: 20px;
-      }
-
       .btn-calculate {
         width: 100%;
         padding: 16px;
       }
-    }
-
-    /* Loading Animation */
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* Footer */
-    footer {
-      background-color: #f8f9fa;
-      padding: 40px 0;
-      margin-top: 60px;
-      border-top: 1px solid #e9ecef;
     }
   </style>
 </head>
@@ -390,7 +294,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-custom-blue text-white ms-2" href="#hero">Sixxroom</a>
+            <a class="nav-link btn btn-custom-blue text-white ms-2" href="../../#hero">Sixxroom</a>
           </li>
         </ul>
       </div>
@@ -398,64 +302,54 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero-section">
+  <div class="hero-section">
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">Visualisasi Gelombang Arus AC</h1>
-        <p class="hero-description">Simulasikan dan visualisasikan gelombang arus AC dengan memasukkan
-          parameter-parameter dasar</p>
+        <p class="hero-description">Simulasikan dan visualisasikan gelombang arus AC dengan parameter dasar</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Calculator Section -->
+  <!-- Calculator -->
   <div class="container">
     <div class="calculator-container">
-      <h2 class="page-title">Parameter Input</h2>
-      <p class="page-subtitle">Masukkan nilai arus maksimum, frekuensi, dan fase awal untuk memvisualisasikan bentuk
-        gelombang arus</p>
-
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-lightning"></i>
-              Arus Maksimum (Imax)
-              <span class="unit">(Ampere)</span>
+              <i class="bi bi-lightning-charge"></i>
+              Arus Maksimum (I<sub>max</sub>)
+              <span class="unit">(A)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="imax" value="10" step="0.1"
-                placeholder="Masukkan arus maksimum">
-              <i class="bi bi-lightning-charge input-icon"></i>
+              <input type="number" class="form-control" id="imax" value="10" step="0.1">
+              <i class="bi bi-lightning input-icon"></i>
             </div>
           </div>
         </div>
-
         <div class="col-md-4">
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-activity"></i>
+              <i class="bi bi-broadcast"></i>
               Frekuensi (f)
               <span class="unit">(Hz)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="freq" value="50" step="0.1"
-                placeholder="Masukkan frekuensi">
-              <i class="bi bi-soundwave input-icon"></i>
+              <input type="number" class="form-control" id="freq" value="50" step="0.1">
+              <i class="bi bi-broadcast input-icon"></i>
             </div>
           </div>
         </div>
-
         <div class="col-md-4">
           <div class="form-group">
             <label class="form-label">
-              <i class="bi bi-compass"></i>
+              <i class="bi bi-arrow-clockwise"></i>
               Fase Awal (φ)
-              <span class="unit">(radian)</span>
+              <span class="unit">(rad)</span>
             </label>
             <div class="input-wrapper">
-              <input type="number" class="form-control with-icon" id="phi" value="0" step="0.01"
-                placeholder="Masukkan fase awal">
+              <input type="number" class="form-control" id="phi" value="0" step="0.01">
               <i class="bi bi-arrow-clockwise input-icon"></i>
             </div>
           </div>
@@ -464,34 +358,33 @@
 
       <div class="text-center mt-4">
         <button class="btn btn-calculate" onclick="hitungArusAC()">
-          <i class="bi bi-graph-up me-2"></i>Hitung dan Tampilkan Grafik
+          <i class="bi bi-calculator me-2"></i>Hitung dan Tampilkan Grafik
+        </button>
+        <button class="btn btn-outline-secondary ms-2" onclick="resetForm()">
+          <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
         </button>
       </div>
 
+      <!-- Results -->
       <div class="result-section" id="result-container" style="display: none;">
         <div class="section-header">
           <div class="section-icon">
-            <i class="bi bi-info-circle"></i>
+            <i class="bi bi-graph-up"></i>
           </div>
           <h4>Hasil Perhitungan</h4>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="result-item">
-              <span>Frekuensi Sudut (ω):</span>
-              <span class="result-value" id="result-omega">-- rad/s</span>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="result-item">
-              <span>Fase Awal (φ):</span>
-              <span class="result-value" id="result-phi">-- rad</span>
-            </div>
-          </div>
+        <div class="result-item">
+          <span>Frekuensi Sudut (ω):</span>
+          <span class="result-value" id="result-omega">-- rad/s</span>
         </div>
-        <div id="calculation-steps" class="mt-3 text-muted fst-italic"></div>
+        <div class="result-item">
+          <span>Fase Awal (φ):</span>
+          <span class="result-value" id="result-phi">-- rad</span>
+        </div>
+        <div id="calculation-steps" class="mt-3 text-muted small"></div>
       </div>
 
+      <!-- Chart -->
       <div class="chart-container" id="chart-container" style="display: none;">
         <div class="section-header">
           <div class="section-icon">
@@ -499,10 +392,12 @@
           </div>
           <h4>Visualisasi Gelombang Arus AC</h4>
         </div>
-        <canvas id="chart" height="300"></canvas>
+        <div class="chart-wrapper">
+          <canvas id="chart"></canvas>
+        </div>
       </div>
 
-      <div class="formula-display mt-4">I(t) = Imax × sin(ωt - φ)</div>
+      <div class="formula-display">I(t) = I<sub>max</sub> × sin(ωt - φ)</div>
     </div>
   </div>
 
@@ -515,22 +410,17 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
+    let chartInstance;
+
     function hitungArusAC() {
       const button = document.querySelector('.btn-calculate');
       const originalText = button.innerHTML;
 
       // Loading state
-      button.innerHTML = '<span class="loading"></span> Menghitung...';
+      button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Menghitung...';
       button.disabled = true;
-
-      // Reset validation states
-      document.querySelectorAll('.form-control').forEach(input => {
-        input.classList.remove('is-invalid', 'is-valid');
-      });
 
       setTimeout(() => {
         try {
@@ -539,32 +429,8 @@
           const phi = parseFloat(document.getElementById('phi').value);
 
           // Validation
-          let hasErrors = false;
-          if (isNaN(imax) || imax <= 0) {
-            document.getElementById('imax').classList.add('is-invalid');
-            hasErrors = true;
-          } else {
-            document.getElementById('imax').classList.add('is-valid');
-          }
-
-          if (isNaN(freq) || freq <= 0) {
-            document.getElementById('freq').classList.add('is-invalid');
-            hasErrors = true;
-          } else {
-            document.getElementById('freq').classList.add('is-valid');
-          }
-
-          if (isNaN(phi)) {
-            document.getElementById('phi').classList.add('is-invalid');
-            hasErrors = true;
-          } else {
-            document.getElementById('phi').classList.add('is-valid');
-          }
-
-          if (hasErrors) {
-            alert('Mohon periksa kembali nilai yang Anda masukkan!');
-            document.getElementById('result-container').style.display = 'none';
-            document.getElementById('chart-container').style.display = 'none';
+          if (isNaN(imax) || imax <= 0 || isNaN(freq) || freq <= 0 || isNaN(phi)) {
+            alert('Mohon masukkan nilai yang valid!');
             return;
           }
 
@@ -575,28 +441,26 @@
           document.getElementById('result-omega').textContent = omega.toFixed(2) + " rad/s";
           document.getElementById('result-phi').textContent = phi.toFixed(2) + " rad";
           document.getElementById('calculation-steps').innerHTML =
-            `Langkah perhitungan:<br>
-             ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s<br>
-             φ = ${phi} rad`;
+            `ω = 2πf = 2 × ${Math.PI.toFixed(4)} × ${freq} = ${omega.toFixed(4)} rad/s`;
 
           // Show results
           document.getElementById('result-container').style.display = 'block';
           document.getElementById('chart-container').style.display = 'block';
 
           // Generate graph data
-          const points = 1000;
+          const points = 500;
           const timeEnd = 2 / freq; // 2 periods
           const t = Array.from({ length: points }, (_, i) => i * timeEnd / (points - 1));
           const I_t = t.map(ti => imax * Math.sin(omega * ti - phi));
 
           // Create chart
           const ctx = document.getElementById('chart').getContext('2d');
-          if (window.chartInstance) window.chartInstance.destroy();
+          if (chartInstance) chartInstance.destroy();
 
-          window.chartInstance = new Chart(ctx, {
+          chartInstance = new Chart(ctx, {
             type: 'line',
             data: {
-              labels: t.map(v => (v * 1000).toFixed(1)), // Convert to milliseconds
+              labels: t.map(v => (v * 1000).toFixed(1)),
               datasets: [{
                 label: 'Arus I(t) [A]',
                 data: I_t,
@@ -604,7 +468,6 @@
                 backgroundColor: 'rgba(52, 152, 219, 0.1)',
                 borderWidth: 3,
                 pointRadius: 0,
-                fill: false,
                 tension: 0.1
               }]
             },
@@ -626,10 +489,6 @@
                   grid: {
                     color: 'rgba(108, 117, 125, 0.1)',
                     drawBorder: false
-                  },
-                  ticks: {
-                    color: '#6c757d',
-                    font: { size: 12 }
                   }
                 },
                 y: {
@@ -642,10 +501,6 @@
                   grid: {
                     color: 'rgba(108, 117, 125, 0.1)',
                     drawBorder: false
-                  },
-                  ticks: {
-                    color: '#6c757d',
-                    font: { size: 12 }
                   }
                 }
               },
@@ -667,12 +522,7 @@
                   borderColor: '#3498db',
                   borderWidth: 1,
                   cornerRadius: 8,
-                  displayColors: true,
-                  callbacks: {
-                    label: function (context) {
-                      return `Arus I(t): ${context.formattedValue} A`;
-                    }
-                  }
+                  displayColors: true
                 }
               },
               animation: {
@@ -691,110 +541,38 @@
           }, 300);
 
         } catch (error) {
-          alert('Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.');
           console.error('Calculation error:', error);
+          alert('Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.');
         } finally {
           // Restore button
           setTimeout(() => {
             button.innerHTML = originalText;
             button.disabled = false;
-          }, 1000);
+          }, 800);
         }
       }, 500);
     }
 
-    // Handle keyboard shortcuts
-    document.addEventListener('keydown', function (e) {
-      // Ctrl/Cmd + Enter to calculate
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        hitungArusAC();
-      }
-    });
-
-    // Initialize input validation
-    document.addEventListener('DOMContentLoaded', function () {
-      // Input validation on focus/blur
-      document.querySelectorAll('.form-control').forEach(input => {
-        input.addEventListener('focus', function () {
-          this.classList.remove('is-invalid');
-        });
-
-        input.addEventListener('input', function () {
-          // Real-time validation
-          const value = parseFloat(this.value);
-          if (this.value && !isNaN(value) && (this.id === 'phi' || value > 0)) {
-            this.classList.remove('is-invalid');
-            this.classList.add('is-valid');
-          } else if (this.value) {
-            this.classList.remove('is-valid');
-            this.classList.add('is-invalid');
-          } else {
-            this.classList.remove('is-valid', 'is-invalid');
-          }
-        });
-      });
-
-      // Fade in animation for page load
-      document.body.style.opacity = '0';
-      document.body.style.transition = 'opacity 0.6s ease';
-
-      setTimeout(() => {
-        document.body.style.opacity = '1';
-      }, 100);
-    });
-
-    // Reset form function
     function resetForm() {
       document.getElementById('imax').value = '10';
       document.getElementById('freq').value = '50';
       document.getElementById('phi').value = '0';
-
-      document.querySelectorAll('.form-control').forEach(input => {
-        input.classList.remove('is-invalid', 'is-valid');
-      });
-
       document.getElementById('result-container').style.display = 'none';
       document.getElementById('chart-container').style.display = 'none';
-
-      if (window.chartInstance) {
-        window.chartInstance.destroy();
-        window.chartInstance = null;
+      if (chartInstance) {
+        chartInstance.destroy();
+        chartInstance = null;
       }
     }
 
-    // Export chart as image function
-    function exportChart() {
-      if (!window.chartInstance) {
-        alert('Tidak ada grafik untuk diekspor. Lakukan perhitungan terlebih dahulu.');
-        return;
-      }
-
-      const canvas = document.getElementById('chart');
-      const image = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = `gelombang_arus_ac_${new Date().toISOString().slice(0, 10)}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    // Add control buttons after document is loaded
+    // Initialize event listeners
     document.addEventListener('DOMContentLoaded', function () {
-      // Add reset and export buttons
-      const calculateButton = document.querySelector('.btn-calculate');
-      const controlDiv = document.createElement('div');
-      controlDiv.className = 'text-center mt-3';
-      controlDiv.innerHTML = `
-        <button class="btn btn-outline-secondary me-2" onclick="resetForm()">
-          <i class="bi bi-arrow-clockwise me-1"></i>Reset
-        </button>
-        <button class="btn btn-outline-success" onclick="exportChart()">
-          <i class="bi bi-download me-1"></i>Export Grafik
-        </button>
-      `;
-      calculateButton.parentNode.insertBefore(controlDiv, calculateButton.nextSibling);
+      // Add keyboard support
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          hitungArusAC();
+        }
+      });
     });
   </script>
 </body>

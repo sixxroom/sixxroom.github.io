@@ -39,7 +39,7 @@ body {
 .btn-custom-blue {
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
-    color: white;
+    color: black;
     font-weight: bold;
     border-radius: 15px;
     padding: 8px 20px;

@@ -10,6 +10,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --success: #27ae60;
+      --danger: #e74c3c;
+    }
+
     body {
       background: #f8f9fa;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -94,11 +101,19 @@
     }
 
     .form-control:focus {
-      border-color: #3498db;
+      border-color: var(--primary);
       box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
       outline: none;
       background-color: #fff;
       transform: translateY(-1px);
+    }
+
+    .form-control.is-invalid {
+      border-color: var(--danger);
+    }
+
+    .form-control.is-valid {
+      border-color: var(--success);
     }
 
     .input-wrapper {
@@ -116,7 +131,7 @@
     }
 
     .btn-calculate {
-      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
       color: white;
       border: none;
       padding: 14px 32px;
@@ -133,6 +148,23 @@
     .btn-calculate:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+
+    .btn-outline-danger {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: transparent;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-danger:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: white;
+      transform: translateY(-1px);
     }
 
     .section-header {
@@ -152,7 +184,7 @@
     .section-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -182,7 +214,7 @@
 
     .result-value {
       font-weight: 700;
-      color: #3498db;
+      color: var(--primary);
       font-size: 16px;
     }
 
@@ -195,7 +227,7 @@
       border: 1px solid #e9ecef;
     }
 
-    /* Ukuran tetap untuk chart */
+    /* Ukuran tetap untuk chart - FIXED BUG */
     .chart-wrapper {
       position: relative;
       height: 400px;
@@ -234,6 +266,22 @@
 
     .nav-link:hover {
       color: #3498db !important;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     @media screen and (max-width: 768px) {
@@ -285,12 +333,12 @@
               Perhitungan
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/perhitungan/kalrlc/">RLC</a></li>
-              <li><a class="dropdown-item" href="/perhitungan/frekuensi/">Frekuensi Sudut</a></li>
-              <li><a class="dropdown-item" href="/perhitungan/impendansi/">Impedansi RLC</a></li>
-              <li><a class="dropdown-item" href="/perhitungan/arusmax/">Arus Maximum</a></li>
-              <li><a class="dropdown-item" href="/perhitungan/arusefektif/">Arus Efektif</a></li>
-              <li><a class="dropdown-item" href="/perhitungan/vgelomarus/">Gelombang Arus AC</a></li>
+              <li><a class="dropdown-item" href="../kalrlc/index.html">RLC</a></li>
+              <li><a class="dropdown-item" href="../frekuensi/index.html">Frekuensi Sudut</a></li>
+              <li><a class="dropdown-item" href="../impendansi/index.html">Impedansi RLC</a></li>
+              <li><a class="dropdown-item" href="../arusmax/index.html">Arus Maximum</a></li>
+              <li><a class="dropdown-item" href="../arusefektif/index.html">Arus Efektif</a></li>
+              <li><a class="dropdown-item" href="../vgelomarus/index.html">Gelombang Arus AC</a></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -360,8 +408,11 @@
         <button class="btn btn-calculate" onclick="hitungArusAC()">
           <i class="bi bi-calculator me-2"></i>Hitung dan Tampilkan Grafik
         </button>
-        <button class="btn btn-outline-secondary ms-2" onclick="resetForm()">
-          <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-danger" onclick="clearInputs()">
+          <i class="bi bi-trash me-1"></i>Hapus
         </button>
       </div>
 
@@ -422,6 +473,11 @@
       button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Menghitung...';
       button.disabled = true;
 
+      // Reset validation
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.classList.remove('is-invalid', 'is-valid');
+      });
+
       setTimeout(() => {
         try {
           const imax = parseFloat(document.getElementById('imax').value);
@@ -429,7 +485,21 @@
           const phi = parseFloat(document.getElementById('phi').value);
 
           // Validation
-          if (isNaN(imax) || imax <= 0 || isNaN(freq) || freq <= 0 || isNaN(phi)) {
+          const inputs = [imax, freq, phi];
+          const inputElements = ['imax', 'freq', 'phi'];
+          let hasErrors = false;
+
+          inputs.forEach((value, index) => {
+            const element = document.getElementById(inputElements[index]);
+            if (isNaN(value) || value < 0) {
+              element.classList.add('is-invalid');
+              hasErrors = true;
+            } else {
+              element.classList.add('is-valid');
+            }
+          });
+
+          if (hasErrors) {
             alert('Mohon masukkan nilai yang valid!');
             return;
           }
@@ -553,12 +623,18 @@
       }, 500);
     }
 
-    function resetForm() {
-      document.getElementById('imax').value = '10';
-      document.getElementById('freq').value = '50';
-      document.getElementById('phi').value = '0';
+    function clearInputs() {
+      document.getElementById('imax').value = '';
+      document.getElementById('freq').value = '';
+      document.getElementById('phi').value = '';
+
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+
       document.getElementById('result-container').style.display = 'none';
       document.getElementById('chart-container').style.display = 'none';
+
       if (chartInstance) {
         chartInstance.destroy();
         chartInstance = null;
@@ -572,6 +648,31 @@
         if (e.key === 'Enter') {
           hitungArusAC();
         }
+        if (e.key === 'Escape') {
+          const output = document.getElementById('result-container');
+          if (output.style.display !== 'none') {
+            output.style.display = 'none';
+            document.getElementById('chart-container').style.display = 'none';
+          }
+        }
+      });
+
+      // Add validation on input
+      ['imax', 'freq', 'phi'].forEach(id => {
+        const input = document.getElementById(id);
+
+        input.addEventListener('input', function () {
+          const value = parseFloat(this.value);
+          if (this.value && !isNaN(value) && value >= 0) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+          } else if (this.value) {
+            this.classList.remove('is-valid');
+            this.classList.add('is-invalid');
+          } else {
+            this.classList.remove('is-valid', 'is-invalid');
+          }
+        });
       });
     });
   </script>

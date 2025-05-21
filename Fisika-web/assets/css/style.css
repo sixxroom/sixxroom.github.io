@@ -35,6 +35,184 @@ body {
     color: #3498db !important;
 }
 
+select {
+    border: none;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Animations for all nav items */
+.nav-link {
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #007bff !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #007bff;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    background-color: rgba(0, 123, 255, 0.2);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Special styling for Sixxroom button */
+.btn-custom-blue {
+    background-color: #007bff;
+    color: black !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease !important;
+}
+
+.btn-custom-blue:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    background-color: #ffffff !important;
+}
+
+.btn-custom-blue:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.btn-custom-blue::after {
+    display: none;
+}
+
+/* Custom styles for mobile dropdown with animations */
+@media (max-width: 991.98px) {
+    .navbar-nav .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        box-shadow: none;
+        padding-left: 15px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
+        opacity: 0;
+    }
+
+    .navbar-nav .dropdown-menu.show-menu {
+        max-height: 300px;
+        /* Adjust based on content */
+        opacity: 1;
+    }
+
+    .dropdown-item {
+        color: rgba(0, 0, 0, .55);
+        padding: 0.5rem 0;
+        transform: translateX(-10px);
+        transition: transform 0.3s ease, color 0.2s ease;
+        opacity: 0;
+    }
+
+    .dropdown-menu.show-menu .dropdown-item {
+        transform: translateX(0);
+        opacity: 1;
+        transition-delay: 0.1s;
+    }
+
+    .dropdown-menu.show-menu .dropdown-item:nth-child(2) {
+        transition-delay: 0.15s;
+    }
+
+    .dropdown-menu.show-menu .dropdown-item:nth-child(3) {
+        transition-delay: 0.2s;
+    }
+
+    .dropdown-menu.show-menu .dropdown-item:nth-child(4) {
+        transition-delay: 0.25s;
+    }
+
+    .dropdown-menu.show-menu .dropdown-item:nth-child(5) {
+        transition-delay: 0.3s;
+    }
+
+    .dropdown-menu.show-menu .dropdown-item:nth-child(6) {
+        transition-delay: 0.35s;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background-color: transparent;
+        color: #007bff;
+        transform: translateX(5px);
+    }
+
+    /* Animated icon for dropdown */
+    .dropdown-toggle::after {
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle.active::after {
+        transform: rotate(180deg);
+    }
+
+    /* Mobile nav items animations */
+    .nav-item {
+        transition: transform 0.3s ease;
+    }
+
+    .nav-item:active {
+        transform: scale(0.97);
+    }
+
+    .nav-link::after {
+        bottom: -2px;
+    }
+}
+
 /* Custom Button Styles */
 .btn-custom-blue {
     background-color: var(--secondary-color);
@@ -48,7 +226,7 @@ body {
 .btn-custom-blue:hover {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
-    color: white;
+    color: black;
 }
 
 .btn-custom-pink {

@@ -8,29 +8,6 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <script>
-        function toggleSidebarDropdown() {
-            const menu = document.getElementById("perhitunganDropdown");
-            menu.style.display = menu.style.display === "block" ? "none" : "block";
-        }
-
-        function openSidebar() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeSidebar() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-    </script>
-
-    <style>
-        select {
-            border: none;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-    </style>
 </head>
 
 <body>
@@ -56,7 +33,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="perhitunganDropdown" role="button"
-                            data-bs-toggle="dropdown">
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Perhitungan
                         </a>
                         <ul class="dropdown-menu">
@@ -75,6 +52,8 @@
             </div>
         </div>
     </nav>
+
+    <!-- Rest of the content remains the same... -->
 
     <!-- Hero Section -->
     <section id="hero" class="container-fluid">
@@ -267,16 +246,87 @@
                 });
             });
 
-            // Auto-close mobile navbar when clicking on links
+            // Modified mobile navbar behavior
+            // Only close the navbar when clicking on non-dropdown links
             const navbarToggler = document.querySelector('.navbar-toggler');
             const navbarCollapse = document.querySelector('.navbar-collapse');
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle)');
 
             navLinks.forEach(link => {
                 link.addEventListener('click', function () {
                     // Check if navbar is expanded (mobile view)
                     if (navbarCollapse.classList.contains('show')) {
                         navbarToggler.click();
+                    }
+                });
+            });
+
+            // Prevent dropdown from closing navbar on mobile
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+            // Special handling for dropdown on mobile with animation
+            dropdownToggle.addEventListener('click', function (e) {
+                // In mobile view, prevent the default Bootstrap behavior
+                if (window.innerWidth < 992) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Toggle dropdown menu visibility with animation
+                    const dropdownMenu = this.nextElementSibling;
+
+                    // Toggle the active class for the dropdown arrow animation
+                    this.classList.toggle('active');
+
+                    // Apply the animation class instead of inline style
+                    if (dropdownMenu.classList.contains('show-menu')) {
+                        dropdownMenu.classList.remove('show-menu');
+
+                        // Add a small delay before fully hiding the menu to allow animation to complete
+                        setTimeout(() => {
+                            if (!dropdownMenu.classList.contains('show-menu')) {
+                                dropdownMenu.style.display = 'none';
+                            }
+                        }, 400); // Match this with your CSS transition time
+                    } else {
+                        dropdownMenu.style.display = 'block';
+
+                        // Trigger browser reflow before adding the animation class
+                        dropdownMenu.offsetHeight;
+
+                        dropdownMenu.classList.add('show-menu');
+                    }
+
+                    // Add a ripple effect on the dropdown toggle
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.backgroundColor = 'rgba(0,123,255,0.2)';
+                    ripple.style.width = '100px';
+                    ripple.style.height = '100px';
+                    ripple.style.left = (e.offsetX - 50) + 'px';
+                    ripple.style.top = (e.offsetY - 50) + 'px';
+                    ripple.style.animation = 'ripple-animation 0.6s linear';
+                    ripple.style.pointerEvents = 'none';
+
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                }
+            });
+
+            // Prevent dropdown items from closing the navbar
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function (e) {
+                    // Only stop propagation in mobile view to prevent navbar collapse
+                    if (window.innerWidth < 992) {
+                        e.stopPropagation();
                     }
                 });
             });
@@ -338,6 +388,47 @@
                 card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
                 observer.observe(card);
             });
+
+            // Handle window resize to reset dropdown display
+            window.addEventListener('resize', function () {
+                const dropdownMenu = document.querySelector('.dropdown-menu');
+                const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+                if (window.innerWidth >= 992) {
+                    dropdownMenu.style.display = '';
+                    dropdownMenu.classList.remove('show-menu');
+                    dropdownToggle.classList.remove('active');
+                }
+            });
+
+            // Add keyframe animation for ripple effect
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple-animation {
+                    0% {
+                        transform: scale(0);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 0;
+                    }
+                }
+                
+                .dropdown-item {
+                    position: relative;
+                    z-index: 1;
+                }
+                
+                .dropdown-toggle {
+                    transition: background-color 0.3s ease;
+                }
+                
+                .dropdown-toggle:active {
+                    background-color: rgba(0,123,255,0.1);
+                }
+            `;
+            document.head.appendChild(style);
         });
 
         // Add loading animation
@@ -348,24 +439,6 @@
             setTimeout(() => {
                 document.body.style.opacity = '1';
             }, 100);
-        });
-
-        // Enhanced dropdown behavior
-        const dropdownLinks = document.querySelectorAll('.dropdown-item');
-        dropdownLinks.forEach(link => {
-            link.addEventListener('click', function (e) {
-                // For demo purposes, prevent navigation to non-existent pages
-                if (this.getAttribute('href').includes('#')) {
-                    e.preventDefault();
-                    console.log('Navigating to:', this.textContent);
-
-                    // Close dropdown
-                    const dropdown = bootstrap.Dropdown.getInstance(document.getElementById('perhitunganDropdown'));
-                    if (dropdown) {
-                        dropdown.hide();
-                    }
-                }
-            });
         });
     </script>
 </body>

@@ -139,6 +139,11 @@
             align-items: center;
         }
 
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
         .result-value {
             font-weight: 700;
             color: #3498db;
@@ -179,7 +184,6 @@
             border: 1px solid #e9ecef;
         }
 
-        /* Ukuran tetap untuk chart */
         .chart-wrapper {
             position: relative;
             height: 400px;
@@ -187,7 +191,6 @@
             margin: 0 auto;
         }
 
-        /* Navigation */
         .navbar {
             box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
@@ -253,19 +256,6 @@
             line-height: 1.6;
         }
 
-        .formula-box {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: #ffffff;
-            font-weight: bold;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 8px;
-            margin-top: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
-        }
-
         .loading {
             display: inline-block;
             width: 20px;
@@ -288,10 +278,6 @@
                 margin: 20px auto;
             }
 
-            .navbar-brand {
-                font-size: 1.5rem;
-            }
-
             .hero-title {
                 font-size: 2rem;
             }
@@ -309,7 +295,6 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#hero">Fisika Dasar 2A</a>
@@ -354,7 +339,7 @@
     <section class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title"> Impedansi RLC Seri</h1>
+                <h1 class="hero-title">Impedansi RLC Seri</h1>
                 <p class="hero-description">Hitung parameter-parameter impedansi rangkaian RLC seri dengan mudah dan
                     akurat</p>
             </div>
@@ -363,7 +348,7 @@
 
     <div class="container">
         <div class="calculator-container">
-            <h2 class="page-title"> Impedansi RLC Seri</h2>
+            <h2 class="page-title">Impedansi RLC Seri</h2>
             <p class="page-subtitle">Masukkan nilai komponen untuk menghitung impedansi total rangkaian RLC seri</p>
 
             <div class="row">
@@ -451,8 +436,6 @@
                     <canvas id="impedanceChart"></canvas>
                 </div>
             </div>
-
-
         </div>
     </div>
 
@@ -472,11 +455,9 @@
             const button = document.querySelector('.btn-calculate');
             const originalText = button.innerHTML;
 
-            // Loading state
             button.innerHTML = '<span class="loading"></span> Menghitung...';
             button.disabled = true;
 
-            // Reset validation states
             document.querySelectorAll('.form-control').forEach(input => {
                 input.classList.remove('is-invalid', 'is-valid');
             });
@@ -488,7 +469,6 @@
                     const C = parseFloat(document.getElementById('c').value);
                     const f = parseFloat(document.getElementById('f').value);
 
-                    // Validation
                     const inputs = [
                         { id: 'r', value: R, name: 'Resistansi' },
                         { id: 'l', value: L, name: 'Induktansi' },
@@ -508,7 +488,7 @@
                     });
 
                     if (hasErrors) {
-                        alert('Mohon periksa kembali nilai input yang Anda masukkan (tidak boleh kosong atau nol)!');
+                        alert('Mohon periksa kembali nilai input yang Anda masukkan!');
                         return;
                     }
 
@@ -538,30 +518,26 @@
                     `;
 
                     stepsEl.innerHTML = `
-                        <div class="result-item">
-                            <span>Frekuensi Sudut (ω):</span>
-                            <span class="result-value">${omega.toFixed(3)} rad/s</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Reaktansi Induktif (XL):</span>
-                            <span class="result-value">${xl.toFixed(3)} Ω</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Reaktansi Kapasitif (XC):</span>
-                            <span class="result-value">${xc.toFixed(3)} Ω</span>
+                        <div class="mt-4">
+                            <h5>Langkah Perhitungan:</h5>
+                            <ol class="mt-2">
+                                <li>Menghitung frekuensi sudut: ω = 2πf = 2π × ${f} = ${omega.toFixed(3)} rad/s</li>
+                                <li>Menghitung reaktansi induktif: XL = ωL = ${omega.toFixed(3)} × ${L} = ${xl.toFixed(3)} Ω</li>
+                                <li>Menghitung reaktansi kapasitif: XC = 1/(ωC) = 1/(${omega.toFixed(3)} × ${C}) = ${xc.toFixed(3)} Ω</li>
+                                <li>Menghitung impedansi: Z = √(R² + (XL - XC)²)</li>
+                                <li>Substitusi nilai: Z = √(${R}² + (${xl.toFixed(3)} - ${xc.toFixed(3)})²)</li>
+                                <li>Hasil perhitungan: Z = ${z.toFixed(3)} Ω</li>
+                                <li>Sudut fase: φ = arctan((XL - XC)/R) = ${phaseDifference.toFixed(2)}°</li>
+                            </ol>
                         </div>
                     `;
 
-                    // Create or update chart
                     createImpedanceChart(R, xl, xc, z, phaseDifference);
-
-                    // Scroll to result
                     resultSection.scrollIntoView({ behavior: 'smooth' });
                 } catch (error) {
                     alert('Terjadi kesalahan dalam perhitungan. Mohon periksa kembali input Anda.');
                     console.error('Calculation error:', error);
                 } finally {
-                    // Restore button
                     setTimeout(() => {
                         button.innerHTML = originalText;
                         button.disabled = false;
@@ -572,13 +548,8 @@
 
         function createImpedanceChart(R, XL, XC, Z, phaseDifference) {
             const ctx = document.getElementById('impedanceChart').getContext('2d');
+            if (impedanceChart) impedanceChart.destroy();
 
-            // Destroy existing chart if it exists
-            if (impedanceChart) {
-                impedanceChart.destroy();
-            }
-
-            // Create dataset for frequency vs impedance relationship
             const frequencies = [];
             const impedances = [];
             const inductiveReactances = [];
@@ -588,7 +559,6 @@
             const L = parseFloat(document.getElementById('l').value);
             const C = parseFloat(document.getElementById('c').value);
 
-            // Calculate values for frequencies from 0.1x to 10x the base frequency
             for (let i = 0; i <= 100; i++) {
                 const freq = baseFreq * (0.1 + i * 0.1);
                 frequencies.push(freq);
@@ -702,7 +672,6 @@
             });
         }
 
-        // Clear all inputs function
         function clearInputs() {
             const inputs = ['r', 'l', 'c', 'f'];
             inputs.forEach(id => {
@@ -711,37 +680,9 @@
                 input.classList.remove('is-valid', 'is-invalid');
             });
 
-            // Hide results
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('chartContainer').style.display = 'none';
 
-            // Clear chart if it exists
-            if (impedanceChart) {
-                impedanceChart.destroy();
-                impedanceChart = null;
-            }
-        }
-
-        // Reset to default values function
-        function resetToDefaults() {
-            const defaults = {
-                'r': 100,
-                'l': 0.1,
-                'c': 0.0001,
-                'f': 50
-            };
-
-            Object.entries(defaults).forEach(([id, value]) => {
-                const input = document.getElementById(id);
-                input.value = value;
-                input.classList.remove('is-valid', 'is-invalid');
-            });
-
-            // Hide results
-            document.getElementById('result-section').style.display = 'none';
-            document.getElementById('chartContainer').style.display = 'none';
-
-            // Clear chart if it exists
             if (impedanceChart) {
                 impedanceChart.destroy();
                 impedanceChart = null;
@@ -749,7 +690,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Input validation on focus/blur
             document.querySelectorAll('.form-control').forEach(input => {
                 input.addEventListener('focus', function () {
                     this.classList.remove('is-invalid');
@@ -767,15 +707,12 @@
                 });
             });
 
-            // Keyboard shortcuts
             document.addEventListener('keydown', function (e) {
-                // Ctrl/Cmd + Enter to calculate
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                     e.preventDefault();
                     hitungImpedansi();
                 }
 
-                // Escape to clear results
                 if (e.key === 'Escape') {
                     const resultSection = document.getElementById('result-section');
                     const chartContainer = document.getElementById('chartContainer');
